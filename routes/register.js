@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var UserEnv = mongoose.model('UserEnv');
+var TokenService = require('../services/twiliotoken');
 
 router.post('/', function(req, res, next) {
   if (!req.body.username || !req.body.password) {
@@ -20,6 +21,8 @@ router.post('/', function(req, res, next) {
 
     // create UserEnv when creating a new User
     var userEnv = new UserEnv({user: user});
+    var tokenService = new TokenService();
+    userEnv.twilioToken = tokenService.generate(user._id).toJwt();
     userEnv.save(function(err, userEnv) {
       if (err) { return next(err); }
       return res.json({token: user.generateJWT()});

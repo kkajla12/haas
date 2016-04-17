@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var methodOverride = require('express-method-override');
 
+// https://github.com/motdotla/dotenv
+require('dotenv').config();
+
 var app = express();
 
 // load models and connect to mongodb
@@ -37,6 +40,7 @@ app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/register', require('./routes/register'));
 app.use('/user', require('./routes/user/user'));
+app.use('/twilio', require('./routes/twilio/twilio'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -33,7 +33,7 @@ UserSchema.methods.generateJWT = function() {
     _id: this._id,
     username: this.username,
     exp: parseInt(exp.getTime() / 1000)
-  }, 'SECRET');  // replace secret with env variable & keep out of code base
+  }, process.env.USER_SECRET);
 };
 
 mongoose.model('User', UserSchema);
