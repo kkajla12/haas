@@ -4,11 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var passport = require('passport');
+var methodOverride = require('express-method-override');
 
 var app = express();
+
+// load models and connect to mongodb
+// use 'mongod --dbpath /data/haasdb'
+var mongoose = require('mongoose');
+require('./models/user');
+require('./config/passport');  // after user model
+mongoose.connect('mongodb://localhost/haasdb');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,12 +24,17 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+app.use(methodOverride());
+
+app.use(passport.initialize());
+
+app.use('/', require('./routes/index'));
+app.use('/login', require('./routes/login'));
+app.use('/register', require('./routes/register'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
