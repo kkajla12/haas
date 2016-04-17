@@ -36,6 +36,7 @@ app.use(passport.initialize());
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/register', require('./routes/register'));
+app.use('/user', require('./routes/user/user'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
