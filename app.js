@@ -13,6 +13,7 @@ var app = express();
 // use 'mongod --dbpath /data/haasdb'
 var mongoose = require('mongoose');
 require('./models/user');
+require('./models/userenv');
 require('./config/passport');  // after user model
 mongoose.connect('mongodb://localhost/haasdb');
 
