@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var xmlparser = require('express-xml-bodyparser');
 var passport = require('passport');
 var methodOverride = require('express-method-override');
-//var IpMessagingClient = require('twilio').IpMessagingClient;
 
 // https://github.com/motdotla/dotenv
 require('dotenv').config();
@@ -21,22 +20,6 @@ require('./models/user');
 require('./models/userenv');
 require('./config/passport');  // after user model
 mongoose.connect('mongodb://localhost/haasdb');
-
-/*var client = new IpMessagingClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-var service = client.services(process.env.TWILIO_IPM_SERVICE_SID);
-client.services(process.env.TWILIO_IPM_SERVICE_SID).update({
-  webhooks: {
-    on_message_send: {
-      url: 'http://defa2018.ngrok.io/twilio/inbound',
-      method: 'POST',
-      format: 'application/json'
-    }
-  }
-}).then(function(response) {
-    console.log(response);
-}).fail(function(error) {
-    console.log(error);
-});*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
