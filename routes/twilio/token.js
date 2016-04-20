@@ -6,7 +6,7 @@ var TokenService = require('../../services/twiliotoken');
 // sets req.payload to the logged-in user payload
 var auth = require('../middleware/authentication');
 
-router.post('/:userId', auth, function (req, res) {
+router.get('/', auth, function (req, res) {
   var deviceId = req.body.device;
   var identity = req.body.identity;
   var tokenService = new TokenService();

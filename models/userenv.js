@@ -26,7 +26,7 @@ var UserEnvSchema = new mongoose.Schema({
     max: 4,
     default: 1
   },
-  twilioToken: String
+  twilioChannelId: String
 });
 
 mongoose.model('UserEnv', UserEnvSchema);
