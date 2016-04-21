@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var TokenService = require('../../services/twiliotoken');
+var TokenService = require('../../services/twiliotokenservice');
 
 // middleware for getting the logged-in user
 // sets req.payload to the logged-in user payload
