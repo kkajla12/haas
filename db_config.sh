@@ -6,7 +6,7 @@ command -v mongos >/dev/null 2>&1 || { echo "mongos not installed. Aborting." >&
 
 # Configuration options
 # TODO: error handling (i.e. already configured)
-DBNAME="haas"
+DBNAME="haasdb"
 HOSTNAME=`hostname`
 PORT_SHARD0_M0=27107
 PORT_SHARD0_M1=27108
