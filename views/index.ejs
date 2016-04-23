@@ -10,7 +10,7 @@ src="//media.twiliocdn.com/sdk/js/client/v1.3/twilio.min.js"></script>
     <script>
       var tc = {};
 
-      tc.accessManager = new Twilio.AccessManager('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzJiOTdhMTFjN2UzMjZiN2VkMDU4NjU0MDBhN2NiZTEwLTE0NjEzMDU4NzkiLCJncmFudHMiOnsiaWRlbnRpdHkiOiI1NzE5OTk3YjBjMGY5ZGRmMjdiMjM5NGQiLCJpcF9tZXNzYWdpbmciOnsic2VydmljZV9zaWQiOiJJU2E4MTE5YzBlOGE4ZDQ0ZmNiZmYxODViOWU0NDQxNDk4IiwiZW5kcG9pbnRfaWQiOiJIQUFTOjU3MTk5OTdiMGMwZjlkZGYyN2IyMzk0ZCJ9fSwiaWF0IjoxNDYxMzA1ODc5LCJleHAiOjE0NjEzMDk0NzksImlzcyI6IlNLMmI5N2ExMWM3ZTMyNmI3ZWQwNTg2NTQwMGE3Y2JlMTAiLCJzdWIiOiJBQ2JjNWVlMzYwOTQ1OTQ5MzU2ODdiZWQyY2FlNDI4NGE1In0.TVogviPfSIM-aUOMG7CwNeEwoiU3818WhkFrepquV2c');
+      tc.accessManager = new Twilio.AccessManager('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzJiOTdhMTFjN2UzMjZiN2VkMDU4NjU0MDBhN2NiZTEwLTE0NjEzODgyMDUiLCJncmFudHMiOnsiaWRlbnRpdHkiOiI1NzE5OTk3YjBjMGY5ZGRmMjdiMjM5NGQiLCJpcF9tZXNzYWdpbmciOnsic2VydmljZV9zaWQiOiJJU2E4MTE5YzBlOGE4ZDQ0ZmNiZmYxODViOWU0NDQxNDk4IiwiZW5kcG9pbnRfaWQiOiJIQUFTOjU3MTk5OTdiMGMwZjlkZGYyN2IyMzk0ZCJ9fSwiaWF0IjoxNDYxMzg4MjA1LCJleHAiOjE0NjEzOTE4MDUsImlzcyI6IlNLMmI5N2ExMWM3ZTMyNmI3ZWQwNTg2NTQwMGE3Y2JlMTAiLCJzdWIiOiJBQ2JjNWVlMzYwOTQ1OTQ5MzU2ODdiZWQyY2FlNDI4NGE1In0.Z2YOlwCkTIlV2ZyykMPE0ISn-ghEGBcuyqUU8WO_KmI');
       tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
 
       /*tc.messagingClient.getChannels().then(function(channels) {
@@ -32,7 +32,7 @@ src="//media.twiliocdn.com/sdk/js/client/v1.3/twilio.min.js"></script>
       tc.messagingClient.getChannelBySid('CHba0ab34d24154274a0c2af4d3b83fec8').then(function(channel) {
         channel.join().then(function(joinedChannel) {
           console.log('Joined channel ' + joinedChannel.friendlyName);
-          joinedChannel.sendMessage("Where can I buy Halo 5?");
+          joinedChannel.sendMessage("Find me a flight from LAX to SFO on May 15th");
         });
         channel.on('messageAdded', function(message) {
           msg.text = message.body;

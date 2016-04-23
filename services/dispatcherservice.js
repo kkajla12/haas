@@ -26,10 +26,11 @@ var DispatcherFactory = function(){
       var witService = new WitService();
 
       witService.getIntent(query, function(result) {
-        console.log(JSON.stringify(result));
         service.channels(channelSid).messages.create({
           body: "Your intent was " + result.intent +
-                " and your item is " + result.item
+                ", your departure is from " + result.location_from +
+                ", and your arrival is on " + result.datetime +
+                " in " + result.location_to
         }).then(function(response) {
             console.log(response);
             console.log(result);
