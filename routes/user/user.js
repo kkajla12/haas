@@ -8,14 +8,14 @@ var User = mongoose.model('User');
 // sets req.payload to the logged-in user payload
 var auth = require('../middleware/authentication');
 
-// middleware for :userId parameter
-router.param('userId', function(req, res, next, id) {
-  UserEnv.findOne({user: id}, function(err, env) {
+// middleware to lookup user info from the payload id
+var lookupUserInfo = function(req, res, next) {
+  UserEnv.findOne({user: req.payload._id}, function(err, env) {
     if (err) { return next(err); }
     if (!env) {
       return next(new Error('can\'t find env'));
     }
-    User.findById(id, function(err, user) {
+    User.findById(req.payload._id, function(err, user) {
       if (err) { return next(err); }
       if (!user) {
         return next(new Error('can\'t find user'));
@@ -27,13 +27,13 @@ router.param('userId', function(req, res, next, id) {
       return next();
     });
   });
-});
+};
 
-router.get('/:userId', auth, function(req, res, next) {
+router.get('/', auth, lookupUserInfo, function(req, res, next) {
   res.json({user: req.user, userEnv: req.userEnv});
 });
 
-router.put('/:userId', auth, function(req, res, next) {
+router.put('/', auth, lookupUserInfo, function(req, res, next) {
   for (var key in req.body) {
     if (req.body.hasOwnProperty(key)) {
       req.userEnv[key] = req.body[key];
