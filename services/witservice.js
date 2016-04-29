@@ -17,17 +17,27 @@ var WitFactory = function() {
   var client = new Wit(process.env.WIT_ACCESS_TOKEN, actions);
 
   return {
-    getIntent: function(request, callback) {
+    getIntent: function(request, minConfidence, successCallback, failCallback) {
       client.message(request, function(err, data) {
         var result = {};
         if (err) {
           console.log('Oops! Got an error: ' + err);
         } else {
           console.log(JSON.stringify(data));
+          var conf = data.outcomes[0].confidence;
+          if(conf < minConfidence) {
+            result.confidence = conf;
+
+            // perform callback for when confidence level is not met
+            return failCallback(result);
+          }
+
           var intent = data.outcomes[0].entities.intent[0].value;
           result = mapping[intent](data);
+
+          // perform callback for when confidence level is met
+          return successCallback(result);
         }
-        callback(result);
       });
     }
   };

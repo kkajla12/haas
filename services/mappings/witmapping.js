@@ -1,6 +1,8 @@
-// Dictionary, mapping each specific intent to a function which
+// Dictionary mapping each specific intent to a function which
 // retrieves the appropriate fields from the Wit JSON response
 // that will be returned.
+// NOTE: Need to add error handling to prevent server from crashing
+// when response object does not contain the expected properties.
 
 module.exports = {
 
