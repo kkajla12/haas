@@ -24,38 +24,18 @@ app.factory('APIPromiseService', [ '$http', function($http) {
         return $http(req);
     }
 
-/*  function requestLoginPromise(data) {
+    function requestTwilioTokenPromise(token) {
         var req = {
             method: 'GET',
-            url: SERVER_URL + "/login",
-            data: data
-        }
-        return $http(req)
-    }
-
-    function requestRegisterPromise(data) {
-        var req = {
-            method: 'POST',
-            url: SERVER_URL + "/register",
-            data: data
+            headers: {
+                Authorization: 'Bearer ' + token
+            },
+            url: SERVER_URL + 'twilio/token'
         }
         return $http(req);
     }
-
-    function requestQueryPromise(query, url) {
-        var req = {
-            method: 'GET',
-            url: url
-        }
-        return $http(req);
-        return 0;
-    }*/
 
     return {
-/*      askBot : function(query) {
-            var url = "";
-            return requestQueryPromise(query, url);
-        },*/
         register: function(data) {
             return requestPromise("register", "POST", data);
         },
@@ -64,6 +44,9 @@ app.factory('APIPromiseService', [ '$http', function($http) {
         },
         userData: function(token) {
             return requestUserPromise(token)
+        },
+        requestTwilioToken: function(token) {
+            return requestTwilioTokenPromise(token)
         }
 
     }

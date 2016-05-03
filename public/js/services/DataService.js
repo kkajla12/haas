@@ -2,12 +2,28 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
     var userToken = "";
 
     return {
-        getToken: function() {
+        getUserToken: function() {
             return $window.localStorage['haas-token'];
         },
 
-        saveToken: function(token) {
+        saveUserToken: function(token) {
             $window.localStorage['haas-token'] = token;
+        },
+
+        getTwilioToken: function() {
+            return $window.localStorage['twilio-token'];
+        },
+
+        saveTwilioToken: function(token) {
+            $window.localStorage['twilio-token'] = token;
+        },
+
+        getChannelId: function() {
+            return $window.localStorage['channel-id'];
+        },
+
+        saveChannelId: function(channelId) {
+            $window.localStorage['channel-id'] = channelId;
         },
 
         login: function(data, successCallback, failCallback) {
@@ -21,6 +37,7 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
 
         logout: function() {
             $window.localStorage.removeItem('haas-token');
+            $window.localStorage.removeItem('twilio-token');
         },
 
         register: function(data, successCallback, failCallback) {
@@ -34,6 +51,15 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
 
         userData: function(successCallback, failCallback) {
             APIPromiseService.userData($window.localStorage['haas-token'])
+            .then(function(res) {
+                successCallback(res)
+            }, function(error) {
+                failCallback(error)
+            })
+        },
+
+        requestTwilioToken: function(successCallback, failCallback) {
+            APIPromiseService.requestTwilioToken($window.localStorage['haas-token'])
             .then(function(res) {
                 successCallback(res)
             }, function(error) {

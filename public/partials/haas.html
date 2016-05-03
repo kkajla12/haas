@@ -1,4 +1,6 @@
-<div>
-    <h1>HAAS</h1>
-    <p ng-model="botAnswer"></p>
+<div ng-init="init()">
+    <label>Question
+            <input type="text" ng-model="request" />
+    </label>
+    <button ng-click="query()">Ask</button>
 </div>

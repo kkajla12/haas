@@ -17,11 +17,18 @@ app.controller('LoginController', ['$scope', '$location', 'DataService', functio
     };
 
     loginSuccess = function(res) {
-        DataService.saveToken(res.data.token);
+        DataService.saveUserToken(res.data.token);
         DataService.userData(function(res) {
-            console.log(res);
+            DataService.saveChannelId(res.data.userEnv.twilioChannelId);
+            DataService.requestTwilioToken(function(res) {
+                DataService.saveTwilioToken(res.data.token)
+                $location.path("/haas");
+                console.log(res);
+            }, function (error) {
+                console.log("ERROR TODO")
+            });
         }, function(error) {
-            console.log(error);
+            console.log("ERROR TODO")
         });
     }
 
