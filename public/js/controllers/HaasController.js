@@ -1,5 +1,6 @@
 app.controller('HaasController', ['$scope', 'DataService', function($scope, DataService) {
     $scope.request = "What basketball team does Kobe Bryant play for?";
+    $scope.twilioInitialized = false;
 
     var twilioToken = "";
     var channelId = "";
@@ -16,7 +17,7 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
 
     var twilioChannel;
 
-    $scope.messages = [{'message': 'hello', 'class': 'message-user'}];
+    $scope.messages = [];
 
     $scope.init = function() {
         twilioToken = DataService.getTwilioToken();
@@ -27,6 +28,8 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
             channel.join().then(function(joinedChannel) {
               console.log('Joined channel ' + joinedChannel.friendlyName);
               twilioChannel = joinedChannel
+              $scope.twilioInitialized = true;
+              $scope.$apply();
             });
             channel.on('messageAdded', function(message) {
               msg.text = message.body;

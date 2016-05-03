@@ -18,5 +18,7 @@
             <input type="password" ng-model="confirmPassword" />
         </label>
         <button ng-click="register()">Register</button>
+        <button ng-click="login()" ng-if="backToLogin">Back to Login</button>
+        <p ng-if="registerError">{{registerErrorMessage}}</p>
     </form>
 </div>

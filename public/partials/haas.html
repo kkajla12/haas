@@ -2,6 +2,6 @@
     <label>Question
             <input type="text" ng-model="request" />
     </label>
-    <button ng-click="query()">Ask</button>
+    <button ng-click="query()" ng-if="twilioInitialized">Ask</button>
     <p ng-repeat="message in messages" ng-class="{{message.class}}">{{message.message}}</p>
 </div>
