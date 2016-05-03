@@ -1,15 +1,9 @@
-<div ng-init="init()">
-    <!-- TODO: rename form -->
+<div class="container-messages" ng-init="init()">
     <!-- TODO: mdl-cell -->
-    <div class="messages">
-        <div class="message message-user">
-            This is a bogus query.
-        </div>
-        <div class="message message-bot">
-            This is a bogus response.
-        </div>
+    <div id="messages">
+        <div ng-repeat="message in messages" class="message {{message.class}}">{{message.message}}</div>
     </div>
-    <form class="form-auth">
+    <form class="form-query">
         <div class="textfield mdl-textfield mdl-js-textfield">
             <input class="mdl-textfield__input" type="text" id="_request" ng-model="request">
             <label class="mdl-textfield__label" for="_request">Question</label>

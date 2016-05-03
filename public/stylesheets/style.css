@@ -7,6 +7,11 @@ h1, h2, h4 {
     margin: auto;
 }
 
+.form-query {
+    max-width: 300px; /* TODO: dynamic */
+    margin: auto;
+}
+
 .textfield {
     display: block;
 }
@@ -22,21 +27,30 @@ h1, h2, h4 {
     width: 120px;
 }
 
-.messages {
+.container-messages {
+    height: 90vh;
+    width: 100vw;
+    margin: 0;
+    padding: 15px 0;
+}
+
+#messages {
     margin: auto;
+    max-height: 75%;
     max-width: 300px;
+    overflow-y: auto;
 }
 
 .message {
     color: white;
     max-width: 200px;
+    overflow-wrap: break-word;
     padding: 5px;
 }
 
 .message-user {
     background-color: rgb(244,67,54);
     margin: 5px 0 5px auto;
-
 }
 
 .message-bot {

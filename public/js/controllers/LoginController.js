@@ -4,10 +4,6 @@ app.controller('LoginController', ['$scope', '$location', 'DataService', functio
     $scope.loginError = false;
     $scope.loginErrorMessage = "";
 
-    $scope.init = function() {
-
-    }
-
     $scope.login = function() {
         var data = {
             'username': $scope.username,
