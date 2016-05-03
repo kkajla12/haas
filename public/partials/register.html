@@ -1,22 +1,29 @@
 <div>
     <h2>Register</h2>
     <h4>Please enter the following information:</h4>
-    <form>
-        <label>Username
-            <input type="text" ng-model="username" />
-        </label>
-        <label>First name:
-            <input type="text" ng-model="firstname" />
-        </label>
-        <label>Last name:
-            <input type="text" ng-model="lastname" />
-        </label>
-        <label>Password
-            <input type="password" ng-model="password" />
-        </label>
-        <label>Confirm password:
-            <input type="password" ng-model="confirmPassword" />
-        </label>
-        <button ng-click="register()">Register</button>
+    <form class="form-auth">
+        <div class="textfield mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="_username" ng-model="username">
+            <label class="mdl-textfield__label" for="_username">Username</label>
+        </div>
+        <div class="textfield mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="_firstname" ng-model="firstname">
+            <label class="mdl-textfield__label" for="_firstname">First Name</label>
+        </div>
+        <div class="textfield mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="_lastname" ng-model="lastname">
+            <label class="mdl-textfield__label" for="_lastname">Last Name</label>
+        </div>
+        <div class="textfield mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="password" id="_password" ng-model="password">
+            <label class="mdl-textfield__label" for="_password">Password</label>
+        </div>
+        <div class="textfield mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="password" id="_confirmPassword" ng-model="confirmPassword">
+            <label class="mdl-textfield__label" for="_confirmPassword">Confirm Password</label>
+        </div>
+        <div class="container-button">
+            <button class="button-login mdl-button mdl-js-button mdl-button--raised mdl-button--accent" ng-click="register()">Register</button>
+        </div>
     </form>
 </div>
