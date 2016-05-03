@@ -4,8 +4,8 @@
         <div ng-repeat="message in messages" class="message {{message.class}}">{{message.message}}</div>
     </div>
     <form class="form-query">
-        <div class="textfield mdl-textfield mdl-js-textfield">
-            <input class="mdl-textfield__input" type="text" id="_request" ng-model="request">
+        <div class="mdl-textfield mdl-js-textfield">
+            <textarea class="mdl-textfield__input" type="text" rows="2" id="_request" ng-model="request"></textarea>
             <label class="mdl-textfield__label" for="_request">Question</label>
         </div>
         <div class="container-button">
