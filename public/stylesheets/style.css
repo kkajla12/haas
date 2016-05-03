@@ -21,3 +21,25 @@ h1, h2, h4 {
 .button-form {
     width: 120px;
 }
+
+.messages {
+    margin: auto;
+    max-width: 300px;
+}
+
+.message {
+    color: white;
+    max-width: 200px;
+    padding: 5px;
+}
+
+.message-user {
+    background-color: rgb(244,67,54);
+    margin: 5px 0 5px auto;
+
+}
+
+.message-bot {
+    background-color: rgb(68,138,255);
+    margin: 5px auto 5px 0;
+}

@@ -1,6 +1,21 @@
 <div ng-init="init()">
-    <label>Question
-            <input type="text" ng-model="request" />
-    </label>
-    <button ng-click="query()">Ask</button>
+    <!-- TODO: rename form -->
+    <!-- TODO: mdl-cell -->
+    <div class="messages">
+        <div class="message message-user">
+            This is a bogus query.
+        </div>
+        <div class="message message-bot">
+            This is a bogus response.
+        </div>
+    </div>
+    <form class="form-auth">
+        <div class="textfield mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="_request" ng-model="request">
+            <label class="mdl-textfield__label" for="_request">Question</label>
+        </div>
+        <div class="container-button">
+            <button class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="query()">Ask</button>
+        </div>
+    </form>
 </div>
