@@ -37,7 +37,6 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
                 $scope.messages.push({'message': msg.text, 'class': 'message-bot'});
                 $scope.$apply();
               }
-              console.log($scope.messages);
             });
         });
     }
