@@ -4,12 +4,15 @@ app.controller('RegisterController', ['$scope', '$location', 'DataService', func
     $scope.lastname = "";
     $scope.password = "";
     $scope.confirmPassword = "";
-    $scope.backToLogin = false;
     $scope.registerErrorMessage = "";
     $scope.registerError = false;
 
     $scope.register = function() {
-        if($scope.password == $scope.confirmPassword) {
+        if($scope.username !== "" && $scope.firstname !== ""
+            && $scope.lastname !== "" && $scope.password !== ""
+            && $scope.confirmPasword !== ""
+            && $scope.password === $scope.confirmPassword)
+        {
             var data = {
                 'username': $scope.username,
                 'firstname': $scope.firstname,
@@ -21,8 +24,7 @@ app.controller('RegisterController', ['$scope', '$location', 'DataService', func
     }
 
     registerSuccess = function(res) {
-        console.log(res);
-        $scope.backToLogin = true;
+        $scope.login();
     }
 
     registerFail = function(error) {

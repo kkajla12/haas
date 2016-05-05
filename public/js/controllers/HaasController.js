@@ -17,7 +17,14 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
 
     var twilioChannel;
 
+    var messageWindow = document.getElementById("messages");
+    var queryForm = document.getElementById("form-query");
+
     $scope.messages = [];
+
+    $scope.scrollMessages = function () {
+        messageWindow.scrollTop = messageWindow.scrollHeight;
+    }
 
     $scope.init = function() {
         twilioToken = DataService.getTwilioToken();
@@ -26,24 +33,36 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
         tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
         tc.messagingClient.getChannelBySid(channelId).then(function(channel) {
             channel.join().then(function(joinedChannel) {
-              console.log('Joined channel ' + joinedChannel.friendlyName);
               twilioChannel = joinedChannel
               $scope.twilioInitialized = true;
               $scope.$apply();
             });
             channel.on('messageAdded', function(message) {
               msg.text = message.body;
-              if(msg.text != $scope.request) {
+              if (msg.text !== $scope.request) {
                 $scope.messages.push({'message': msg.text, 'class': 'message-bot'});
                 $scope.$apply();
+              } else {
+                queryForm.reset();
+                $scope.request = '';
               }
-              console.log($scope.messages);
+              $scope.scrollMessages();
             });
         });
     }
 
     $scope.query = function () {
-        $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
-        twilioChannel.sendMessage($scope.request)
+        if ($scope.request !== "" && $scope.twilioInitialized === true) {
+            $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
+            twilioChannel.sendMessage($scope.request);
+        }
+    }
+
+    querySuccess = function(res) {
+        $scope.botAnswer = res;
+    }
+
+    queryFail = function(error) {
+        $scope.botAnswer = error;
     }
 }]);

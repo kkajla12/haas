@@ -1,11 +1,9 @@
 app.factory('APIPromiseService', [ '$http', function($http) {
-    var SERVER_URL = "http://localhost:3000/";
-
     //API CALLS
     function requestPromise(endpoint, method, data) {
         var req = {
             method: method,
-            url: SERVER_URL + endpoint
+            url: endpoint
         }
         if(method == "POST") {
             req.data = data
@@ -19,7 +17,7 @@ app.factory('APIPromiseService', [ '$http', function($http) {
             headers: {
                 Authorization: 'Bearer ' + token
             },
-            url: SERVER_URL + 'user'
+            url: 'user'
         }
         return $http(req);
     }
@@ -30,7 +28,7 @@ app.factory('APIPromiseService', [ '$http', function($http) {
             headers: {
                 Authorization: 'Bearer ' + token
             },
-            url: SERVER_URL + 'twilio/token'
+            url: 'twilio/token'
         }
         return $http(req);
     }

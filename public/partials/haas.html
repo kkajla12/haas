@@ -1,7 +1,14 @@
-<div ng-init="init()">
-    <label>Question
-            <input type="text" ng-model="request" />
-    </label>
-    <button ng-click="query()" ng-if="twilioInitialized">Ask</button>
-    <p ng-repeat="message in messages" ng-class="{{message.class}}">{{message.message}}</p>
+<div class="container-messages" ng-init="init()">
+    <div id="messages">
+        <div ng-repeat="message in messages" class="message {{message.class}}">{{message.message}}</div>
+    </div>
+    <form id="form-query">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" id="_request" ng-model="request" autocomplete="off">
+            <label class="mdl-textfield__label" for="_request">Question</label>
+        </div>
+        <div class="container-button">
+            <button class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="query()" ng-if="twilioInitialized">Send</button>
+        </div>
+    </form>
 </div>
