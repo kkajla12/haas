@@ -17,7 +17,13 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
 
     var twilioChannel;
 
+    var messageWindow = document.getElementById("messages");
+
     $scope.messages = [];
+
+    $scope.scrollMessages = function () {
+        messageWindow.scrollTop = messageWindow.scrollHeight;
+    }
 
     $scope.init = function() {
         twilioToken = DataService.getTwilioToken();
@@ -37,13 +43,16 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
                 $scope.messages.push({'message': msg.text, 'class': 'message-bot'});
                 $scope.$apply();
               }
+              $scope.scrollMessages();
             });
         });
     }
 
     $scope.query = function () {
-        $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
-        twilioChannel.sendMessage($scope.request);
+        if (!($scope.request === "")) {
+            $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
+            twilioChannel.sendMessage($scope.request);
+        }
     }
 
     querySuccess = function(res) {
