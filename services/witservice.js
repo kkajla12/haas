@@ -33,7 +33,11 @@ var WitFactory = function() {
           }
 
           var intent = data.outcomes[0].entities.intent[0].value;
-          result = mapping[intent](data);
+          try {
+            result = mapping[intent](data);
+          } catch (ex) {
+            return failCallback();
+          }
 
           // perform callback for when confidence level is met
           return successCallback(result);
