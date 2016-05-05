@@ -14,3 +14,11 @@ app.config(function ($routeProvider) {
         templateUrl: '/partials/register.html'
     })
 });
+
+app.run(function ($rootScope, $timeout) {
+    $rootScope.$on('$viewContentLoaded', ()=> {
+        $timeout(() => {
+            componentHandler.upgradeAllRegistered();
+        })
+    })
+});
