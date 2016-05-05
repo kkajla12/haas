@@ -8,7 +8,7 @@ app.controller('LoginController', ['$scope', '$location', 'DataService', functio
         var data = {
             'username': $scope.username,
             'password': $scope.password
-        }
+        };
         DataService.login(data, loginSuccess, loginFail);
     };
 
@@ -19,7 +19,6 @@ app.controller('LoginController', ['$scope', '$location', 'DataService', functio
             DataService.requestTwilioToken(function(res) {
                 DataService.saveTwilioToken(res.data.token)
                 $location.path("/haas");
-                console.log(res);
             }, function (error) {
                 console.log("ERROR TODO")
             });
@@ -34,7 +33,6 @@ app.controller('LoginController', ['$scope', '$location', 'DataService', functio
     }
 
     $scope.register = function() {
-        console.log("register")
         $location.path("/register")
     }
 }]);

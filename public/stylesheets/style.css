@@ -7,7 +7,7 @@ h1, h2, h4 {
     margin: auto;
 }
 
-.form-query {
+#form-query {
     max-width: 300px;
     margin: auto;
 }
@@ -60,5 +60,5 @@ h1, h2, h4 {
 
 .message-bot {
     background-color: rgb(68,138,255);
-    margin: 10px auto 0 0;
+    margin: 0 auto 10px 0;
 }
