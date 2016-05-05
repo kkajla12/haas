@@ -1,5 +1,5 @@
 app.controller('HaasController', ['$scope', 'DataService', function($scope, DataService) {
-    $scope.request = "What basketball team does Kobe Bryant play for?";
+    $scope.request = "";
     $scope.twilioInitialized = false;
 
     var twilioToken = "";
@@ -44,14 +44,6 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
 
     $scope.query = function () {
         $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
-        twilioChannel.sendMessage($scope.request);
-    }
-
-    querySuccess = function(res) {
-        $scope.botAnswer = res;
-    }
-
-    queryFail = function(error) {
-        $scope.botAnswer = error;
+        twilioChannel.sendMessage($scope.request)
     }
 }]);
