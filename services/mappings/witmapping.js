@@ -23,14 +23,14 @@ module.exports = {
   twitterTweet: function(data) {
     return {
       intent: 'twitterTweet',
-      tweet: data.outcomes[0].entities.tweet[0].value
+      tweet: data.outcomes[0].entities.message_body[0].value
     };
   },
 
   facebookPostStatus: function(data) {
     return {
       intent: 'facebookPostStatus',
-      fb_status: data.outcomes[0].entities.fb_status[0].value
+      fb_status: data.outcomes[0].entities.message_body[0].value
     };
   },
 
