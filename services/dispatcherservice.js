@@ -23,13 +23,15 @@ var DispatcherFactory = function(){
       // Failure: query Wolfram Alpha service and return
       // its response.
       witService.getIntent(query, 1, function(result) {
-        service.channels(channelSid).messages.create({
-          body: mapping[result.intent](result)
-        }).then(function(response) {
-            console.log(response);
-            console.log(result);
-        }).fail(function(error) {
-            console.log(error);
+        mapping[result.intent](result, function(body) {
+          service.channels(channelSid).messages.create({
+            body: body
+          }).then(function(response) {
+              console.log(response);
+              console.log(result);
+          }).fail(function(error) {
+              console.log(error);
+          });
         });
       }, function() {
         wolframService.query(query, function(message) {

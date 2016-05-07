@@ -41,6 +41,12 @@ module.exports = {
       location_to: data.outcomes[0].entities.to[0].value,
       datetime: data.outcomes[0].entities.datetime[0].value
     };
+  },
+
+  generalHotelSearch: function(data) {
+    return {
+      intent: 'generalHotelSearch'
+    };
   }
 
 }

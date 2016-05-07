@@ -16,6 +16,9 @@ var WitFactory = function() {
   };
   var client = new Wit(process.env.WIT_ACCESS_TOKEN, actions);
 
+  // 
+  // NOTE: Refactor to use one callback with an error object
+  // 
   return {
     getIntent: function(request, minConfidence, successCallback, failCallback) {
       client.message(request, function(err, data) {
@@ -35,6 +38,7 @@ var WitFactory = function() {
           var intent = data.outcomes[0].entities.intent[0].value;
           try {
             result = mapping[intent](data);
+            result.query = request;
           } catch (ex) {
             return failCallback();
           }
