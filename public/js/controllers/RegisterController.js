@@ -24,15 +24,22 @@ app.controller('RegisterController', ['$scope', '$location', 'DataService', func
     }
 
     registerSuccess = function(res) {
-        $scope.login();
+        DataService.saveUserToken(res.data.token);
+        DataService.userData(function(res) {
+            DataService.saveChannelId(res.data.userEnv.twilioChannelId);
+            DataService.requestTwilioToken(function(res) {
+                DataService.saveTwilioToken(res.data.token)
+                $location.path("/haas");
+            }, function (error) {
+                console.log("ERROR TODO")
+            });
+        }, function(error) {
+            console.log("ERROR TODO")
+        });
     }
 
     registerFail = function(error) {
         $scope.registerErrorMessage = error.data.message;
         $scope.registerError = true;
-    }
-
-    $scope.login = function() {
-        $location.path('/')
     }
 }]);

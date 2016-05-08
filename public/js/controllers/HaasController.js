@@ -1,4 +1,4 @@
-app.controller('HaasController', ['$scope', 'DataService', function($scope, DataService) {
+app.controller('HaasController', ['$scope', '$location', 'DataService', function($scope, $location, DataService) {
     $scope.request = "";
     $scope.twilioInitialized = false;
 
@@ -27,42 +27,44 @@ app.controller('HaasController', ['$scope', 'DataService', function($scope, Data
     }
 
     $scope.init = function() {
-        twilioToken = DataService.getTwilioToken();
-        channelId = DataService.getChannelId();
-        tc.accessManager = new Twilio.AccessManager(twilioToken);
-        tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
-        tc.messagingClient.getChannelBySid(channelId).then(function(channel) {
-            channel.join().then(function(joinedChannel) {
-              twilioChannel = joinedChannel
-              $scope.twilioInitialized = true;
-              $scope.$apply();
+       if(!DataService.loggedIn()) {
+            $location.path('/');
+        }
+        else {
+            twilioToken = DataService.getTwilioToken();
+            channelId = DataService.getChannelId();
+            tc.accessManager = new Twilio.AccessManager(twilioToken);
+            tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
+            tc.messagingClient.getChannelBySid(channelId).then(function(channel) {
+                channel.join().then(function(joinedChannel) {
+                  twilioChannel = joinedChannel
+                  $scope.twilioInitialized = true;
+                  $scope.$apply();
+                });
+                channel.on('messageAdded', function(message) {
+                  msg.text = message.body;
+                  if (msg.text !== $scope.request) {
+                    $scope.messages.push({'message': msg.text, 'class': 'message-bot'});
+                    $scope.$apply();
+                  } else {
+                    queryForm.reset();
+                    $scope.request = '';
+                  }
+                  $scope.scrollMessages();
+                });
             });
-            channel.on('messageAdded', function(message) {
-              msg.text = message.body;
-              if (msg.text !== $scope.request) {
-                $scope.messages.push({'message': msg.text, 'class': 'message-bot'});
-                $scope.$apply();
-              } else {
-                queryForm.reset();
-                $scope.request = '';
-              }
-              $scope.scrollMessages();
-            });
-        });
+        }
     }
 
-    $scope.query = function () {
+    $scope.sendRequest = function () {
         if ($scope.request !== "" && $scope.twilioInitialized === true) {
             $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
             twilioChannel.sendMessage($scope.request);
         }
     }
 
-    querySuccess = function(res) {
-        $scope.botAnswer = res;
-    }
-
-    queryFail = function(error) {
-        $scope.botAnswer = error;
+    $scope.logout = function() {
+        DataService.logout();
+        $location.path('/')
     }
 }]);

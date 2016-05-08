@@ -38,6 +38,14 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
         logout: function() {
             $window.localStorage.removeItem('haas-token');
             $window.localStorage.removeItem('twilio-token');
+            $window.localStorage.removeItem('channel-id');
+        },
+
+        loggedIn: function() {
+            if($window.localStorage['haas-token'] && $window.localStorage['twilio-token'] && $window.localStorage['channel-id']) {
+                return true;
+            }
+            return false;
         },
 
         register: function(data, successCallback, failCallback) {

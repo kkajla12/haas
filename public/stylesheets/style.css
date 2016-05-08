@@ -62,3 +62,8 @@ h1, h2, h4 {
     background-color: rgb(68,138,255);
     margin: 0 auto 10px 0;
 }
+
+.logout {
+    float: right;
+    padding: 5px;
+}
