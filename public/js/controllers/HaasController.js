@@ -50,14 +50,28 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
                     $scope.$apply();
                     window.speechSynthesis.speak(msg);
                   } else {
-                    queryForm.reset();
                     $scope.request = '';
+                    $scope.$apply();
                   }
                   $scope.scrollMessages();
                 });
             });
         }
     }
+
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = function(event) {
+      $scope.request = event.results[0][0].transcript;
+      $scope.sendRequest();
+    }
+
+    $scope.recognizeVoice = function () {
+        recognition.start();
+    };
 
     $scope.sendRequest = function () {
         if ($scope.request !== "" && $scope.twilioInitialized === true) {
