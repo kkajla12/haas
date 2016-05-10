@@ -1,4 +1,3 @@
-// var http = require('http');
 var getJSON = require('./jsonservice');
 
 var ExpediaFactory = function(){
@@ -20,19 +19,55 @@ var ExpediaFactory = function(){
     var url = 'http://terminal2.expedia.com:80/x/hotels';
     var options = {
       apikey: process.env.EXPEDIA_CONSUMER_KEY,
-      maxhotels: 5,
+      maxhotels: 35,
       location: location.lat + ',' + location.lng,
       radius: '5km',
       hotelids: hotelIds.join(),
       checkInDate: checkIn,
       checkOutDate: checkOut,
-      sort: 'price',
-      order: 'asc'
+      sort: 'guestrating',
+      order: 'desc',
+      allroomtypes: false
     };
     getJSON(url, options, function(err, res) {
       if (err) { return callback(err); }
       callback(null, JSON.parse(res));
     });
+  };
+
+  var getHotelData = function(hotel) {
+    var result = {};
+    result.name = hotel.Name;
+    if (hotel.Price !== undefined) {
+      if (hotel.Price.TotalRate !== undefined) {
+        result.price = hotel.Price.TotalRate.Value;
+      } else {
+        result.price = "N/A";
+      }
+    } else {
+      result.price = "N/A";
+    }
+    if (hotel.GuestRating !== undefined) {
+      result.rating = hotel.GuestRating;
+    } else {
+      result.rating = "N/A";
+    }
+    if (hotel.DetailsUrl !== undefined) {
+      result.url = hotel.DetailsUrl;
+    } else {
+      result.url = "N/A";
+    }
+    return result;
+  };
+
+  var compareHotels = function(h1, h2) {
+    if (h1.price === "N/A") {
+      return 1;
+    }
+    if (h2.price === "N/A") {
+      return -1;
+    }
+    return h1.price - h2.price;
   };
 
   return {
@@ -57,9 +92,16 @@ var ExpediaFactory = function(){
         }
         getHotels(location, hotelIds, checkIn, checkOut, function(err, res) {
           if (err) { return callback(err); }
-          var message = "Here are 5 hotels in that area:\n";
+          var hotels = [];
           for (var i in res.HotelInfoList.HotelInfo) {
-            message += res.HotelInfoList.HotelInfo[i].Name + "\n";
+            hotels.push(getHotelData(res.HotelInfoList.HotelInfo[i]));
+          }
+          hotels.sort(compareHotels);
+          var message = "Here are five well-rated hotels in that area:\n";
+          for (var i = 0; i < 5; i++) {
+            var hotel = hotels[i];
+            message += hotel.name + " ($" + hotel.price + ", " +
+                       hotel.rating + " stars) - " + hotel.url + "\n";
           }
           callback(null, message);
         });
