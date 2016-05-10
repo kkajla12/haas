@@ -46,6 +46,7 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
                   if (msg.text !== $scope.request) {
                     $scope.messages.push({'message': msg.text, 'class': 'message-bot'});
                     $scope.$apply();
+                    window.speechSynthesis.speak(msg);
                   } else {
                     queryForm.reset();
                     $scope.request = '';
