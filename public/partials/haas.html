@@ -2,6 +2,9 @@
 	<div class="logout">
 		<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="logout()">Log out</button>
 	</div>
+	<div>
+		<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="settings()">Settings</button>
+	</div>
 	<div class="container-messages">
 	    <div id="messages">
 	        <div ng-repeat="message in messages" class="message {{message.class}}">{{message.message}}</div>

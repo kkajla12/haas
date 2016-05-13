@@ -26,6 +26,14 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
             $window.localStorage['channel-id'] = channelId;
         },
 
+        getUserEnv: function() {
+            return JSON.parse($window.localStorage['user-env']);
+        },
+
+        saveUserEnv: function(env) {
+            $window.localStorage.setItem('user-env', JSON.stringify(env));
+        },
+
         login: function(data, successCallback, failCallback) {
             APIPromiseService.login(data)
             .then(function(res) {
@@ -39,6 +47,7 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
             $window.localStorage.removeItem('haas-token');
             $window.localStorage.removeItem('twilio-token');
             $window.localStorage.removeItem('channel-id');
+            $window.localStorage.removeItem('user-env');
         },
 
         loggedIn: function() {

@@ -12,7 +12,11 @@ app.config(function ($routeProvider) {
     $routeProvider.when('/register', {
         controller: 'RegisterController',
         templateUrl: '/partials/register.html'
-    })
+    });
+    $routeProvider.when('/settings', {
+        controller: 'SettingsController',
+        templateUrl: '/partials/settings.html'
+    });
 });
 
 app.run(function ($rootScope, $timeout) {
