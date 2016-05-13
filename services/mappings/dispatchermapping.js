@@ -2,13 +2,17 @@
 // creates the appropriate response to the user's request.
 
 var ExpediaService = require('../expediaservice');
+var AmazonService = require('../amazonservice');
+
 var expediaService = new ExpediaService();
+var amazonService = new AmazonService();
 
 module.exports = {
 
   retailStoreSearch: function(result, callback) {
-    callback("Your intent is " + result.intent +
-             " and your item is " + result.item);
+    amazonService.search(result.item, function(err, res) {
+      callback(result.item + " is available at:\n Amazon for " + res);
+    });
   },
 
   retailComparisonSearch: function(result, callback) {
