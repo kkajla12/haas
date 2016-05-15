@@ -31,13 +31,29 @@ module.exports = {
   },
 
   generalFlightSearch: function(result, callback) {
-    callback("Your intent is " + result.intent +
-             " and you want to book a flight from " + result.location_from +
-             " to " + result.location_to + " on " + result.datetime);
+    expediaService.flightQuery(result, function(err, res) {
+      if (err) {
+        return callback("I'm sorry, I wasn't able to find any flight results. " + 
+                 "You must specify a travel date and use valid three letter " +
+                 "airport codes.");
+      }
+      var response = "Here are the cheapest flights from " + result.location_from +
+                     " to " + result.location_to + " that I found:\n";
+      for (var i in res) {
+        response += res[i].airline + 
+                    " Flight" + flightNums.length > 1 ? "s " : " " +
+                    res[i].flightNums.join() +
+                    " departing on " + res[i].departTime +
+                    " and arriving on " + res[i].arriveTime + ", " +
+                    res[i].price + " " +
+                    res[i].url + "\n";
+      }
+      callback(response);
+    });
   },
 
   generalHotelSearch: function(result, callback) {
-    expediaService.query(result.query, function(err, res) {
+    expediaService.hotelQuery(result.query, function(err, res) {
       callback(res);
     });
   }
