@@ -1,4 +1,4 @@
-app.controller('HaasController', ['$scope', '$location', 'DataService', function($scope, $location, DataService) {
+app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', function($scope, $sce, $location, DataService) {
     $scope.request = "";
     $scope.twilioInitialized = false;
 
@@ -28,6 +28,63 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
         messageWindow.scrollTop = messageWindow.scrollHeight;
     }
 
+    function createAnchor(urlPartial) {
+        var text = '';
+        text += '<a href="';
+        text += urlPartial.href;
+        text += '" style=\'color:white\' target=\'_blank\'>'; // TODO: css class
+        text += urlPartial.text;
+        text += "</a>";
+        return text;
+    }
+
+    // msg is expected in the following format:
+    // {
+    //     type: string
+    //     partials: {
+    //         text: string,            // precursor text
+    //         urls: [{
+    //             href: string,        // anchor tag href
+    //             text: string         // anchor tag value
+    //         }]
+    //     },
+    //     voicemsg: string             // message to be read by google voice
+    // }
+    // TODO: test all services success and failure
+    $scope.encodeMessage = function (msg) {
+        var text = '';
+        if (msg.type === 'wolfram') {
+            text += msg.partials.text;
+            if (msg.partials.urls[0] !== undefined) {
+                text += '<br>';
+                text += createAnchor(msg.partials.urls[0]);
+            }
+        } else if (msg.type === 'retailStoreSearch'
+                   || msg.type === 'retailComparisonSearch'
+                   || msg.type === 'twitterTweet'
+                   || msg.type === 'facebookPostStatus'
+                   || msg.type === 'generalFlightSearch'
+                   || msg.type === 'generalHotelSearch'
+                   || msg.type === 'recipeSearch'
+                   || msg.type === 'recipeIngredientSearch') {
+            text += msg.partials.text;
+            for (var i in msg.partials.urls) {
+                text += '<br>'
+                text += createAnchor(msg.partials.urls[i]);
+            }
+        } else if (msg.type === 'error') {
+            text = msg.errmsg;
+        } else {
+            text = "TODO";
+        }
+        return text;
+    };
+
+    // TODO: secure
+    $scope.encodeAnchors = function (message) {
+        return $sce.trustAsHtml(message);
+    };
+
     $scope.init = function() {
        if(!DataService.loggedIn()) {
             $location.path('/');
@@ -46,8 +103,11 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
                 channel.on('messageAdded', function(message) {
                   msg.text = message.body;
                   if (msg.text !== $scope.request) {
-                    $scope.messages.push({'message': msg.text, 'class': 'message-bot'});
+                    var messageBot = JSON.parse(msg.text);
+                    $scope.messages.push({'message': $scope.encodeMessage(messageBot), 'class': 'message-bot'});
                     $scope.$apply();
+
+                    msg.text = messageBot.voicemsg;
                     window.speechSynthesis.speak(msg);
                   } else {
                     $scope.request = '';

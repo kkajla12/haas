@@ -7,7 +7,7 @@
 	</div>
 	<div class="container-messages">
 	    <div id="messages">
-	        <div ng-repeat="message in messages" class="message {{message.class}}">{{message.message}}</div>
+	        <div ng-repeat="message in messages" ng-bind-html="encodeAnchors(message.message)" class="message {{message.class}}"></div>
 	    </div>
 	    <form id="form-query">
 	        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
