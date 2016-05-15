@@ -41,8 +41,10 @@ module.exports = {
                      " to " + result.location_to + " that I found:\n";
       for (var i in res) {
         response += res[i].airline + 
-                    " Flight" + flightNums.length > 1 ? "s " : " " +
-                    res[i].flightNums.join() +
+                    " Flight" + (res[i].flightNums.length > 1 ? "s " : " ") +
+                    res[i].flightNums.slice(0, res[i].flightNums.length - 1).join(", ") +
+                    (res[i].flightNums.length > 1 ? " and " : "") +
+                    res[i].flightNums[res[i].flightNums.length - 1] +
                     " departing on " + res[i].departTime +
                     " and arriving on " + res[i].arriveTime + ", " +
                     res[i].price + " " +
