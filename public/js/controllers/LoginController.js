@@ -16,6 +16,7 @@ app.controller('LoginController', ['$scope', '$location', 'DataService', functio
         DataService.saveUserToken(res.data.token);
         DataService.userData(function(res) {
             DataService.saveChannelId(res.data.userEnv.twilioChannelId);
+            DataService.saveUserEnv(res.data.userEnv);
             DataService.requestTwilioToken(function(res) {
                 DataService.saveTwilioToken(res.data.token)
                 $location.path("/haas");

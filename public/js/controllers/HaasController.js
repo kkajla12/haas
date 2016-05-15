@@ -80,6 +80,10 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
         }
     }
 
+    $scope.settings = function() {
+        $location.path('/settings')
+    }
+
     $scope.logout = function() {
         DataService.logout();
         $location.path('/')
