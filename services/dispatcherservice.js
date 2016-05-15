@@ -35,8 +35,6 @@ var DispatcherFactory = function(){
         });
       }, function() {
         wolframService.query(query, function(message) {
-          console.log("in wolfram service");
-          console.log(message);
           service.channels(channelSid).messages.create({
             body: message
           }).then(function(response) {
