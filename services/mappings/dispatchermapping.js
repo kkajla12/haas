@@ -84,9 +84,9 @@ module.exports = {
                  + " to " + result.location_to + " that I found:",
           urls: []
         },
-        voicemsg: "Here are the cheapest flights from " + result.location_from
-                 + " to " + result.location_to + " that I found:\n"
+        voicemsg: ''
       };
+      response.voicemsg = response.partials.text;
 
       for (var i in res) {
         var text = res[i].airline
@@ -136,8 +136,10 @@ module.exports = {
           text: "Here are a few recipes for " + result.item + ":\n",
           urls: []
         },
-        voicemsg: "Here are a few recipes for " + result.item + ":\n"
-      }
+        voicemsg: ''
+      };
+      response.voicemsg = response.partials.text;
+
       for (var i in res) {
         response.partials.urls.push({
           href: res[i].url,
@@ -170,8 +172,10 @@ module.exports = {
           text: "Here are a few recipes for " + result.item + ":\n",
           urls: []
         },
-        voicemsg: "Here are a few recipes for " + result.item + ":\n"
-      }
+        voicemsg: ''
+      };
+      response.voicemsg = response.partials.text;
+
       for (var i in res) {
         response.partials.urls.push({
           href: res[i].url,
