@@ -3,9 +3,11 @@
 
 var ExpediaService = require('../expediaservice');
 var AmazonService = require('../amazonservice');
+var Food2ForkService = require('../food2forkservice');
 
 var expediaService = new ExpediaService();
 var amazonService = new AmazonService();
+var food2forkService = new Food2ForkService();
 
 module.exports = {
 
@@ -57,6 +59,36 @@ module.exports = {
   generalHotelSearch: function(result, callback) {
     expediaService.hotelQuery(result.query, function(err, res) {
       callback(res);
+    });
+  },
+
+  recipeSearch: function(result, callback) {
+    food2forkService.recipeQuery(result.item, function(err, res) {
+      if (err) {
+        return callback("I'm sorry, I couldn't find any recipes for " + result.item);
+      }
+      var response = "Here are a few recipes for " + result.item + ":\n";
+      var prefix = "";
+      for (var i in res) {
+        response += prefix + res[i].title + " (" + res[i].url + ")";
+        prefix = "\n";
+      }
+      callback(response);
+    });
+  },
+
+  recipeIngredientSearch: function(result, callback) {
+    food2forkService.recipeIngredientQuery(result.items, function(err, res) {
+      if (err) { 
+        return callback("I'm sorry, I couldn't find any good recipes for those items.");
+      }
+      var response = "Here are a few recipes for " + result.item + ":\n";
+      var prefix = "";
+      for (var i in res) {
+        response += prefix + res[i].title + " (" + res[i].url + ")";
+        prefix = "\n";
+      }
+      callback(response);
     });
   }
 

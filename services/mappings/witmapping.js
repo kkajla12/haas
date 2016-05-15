@@ -47,6 +47,20 @@ module.exports = {
     return {
       intent: 'generalHotelSearch'
     };
+  },
+
+  recipeSearch: function(data) {
+    return {
+      intent: 'recipeSearch',
+      item: data.outcomes[0].entities.item[0].value
+    };
+  },
+
+  recipeIngredientSearch: function(data) {
+    return {
+      intent: 'recipeIngredientSearch',
+      items: data.outcomes[0].entities.item.map(i => i.value)
+    };
   }
 
 }
