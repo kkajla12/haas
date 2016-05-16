@@ -138,29 +138,8 @@ var ExpediaFactory = function(){
             hotels.push(getHotelData(res.HotelInfoList.HotelInfo[i]));
           }
           hotels.sort(compareHotels);
-          // TODO: why is this here and not in dispatcher mapping like the other services?
-          var response = {
-            type: 'generalHotelSearch',
-            partials: {
-              text: "Here are five well-rated hotels in that area:",
-              urls: []
-            },
-            voicemsg: ''
-          }
-          response.voicemsg = response.partials.text;
 
-          for (var i = 0; i < 5; i++) {
-            var hotel = hotels[i];
-            var text = hotel.name + " ($" + hotel.price + ", " + hotel.rating + " stars)";
-            response.partials.urls.push({
-              href: hotel.url,
-              text: text
-            });
-
-            response.voicemsg += text;
-            response.voicemsg += "\n";
-          }
-          callback(null, JSON.stringify(response));
+          callback(null, hotels);
         });
       });
     },

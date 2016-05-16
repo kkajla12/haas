@@ -9,57 +9,55 @@ var expediaService = new ExpediaService();
 var amazonService = new AmazonService();
 var food2forkService = new Food2ForkService();
 
+function createAnchor(href, text) {
+    var anchor = '';
+    anchor += '<a href="';
+    anchor += href;
+    anchor += '" style=\'color:white\' target=\'_blank\'>'; // TODO: css class
+    anchor += text;
+    anchor += "</a>";
+    return anchor;
+}
+
 module.exports = {
   retailStoreSearch: function(result, callback) {
     amazonService.search(result.item, function(err, res) {
       var response = {
-        type: 'retailStoreSearch',
-        partials: {
-          text: result.item + " is available at Amazon for " + res
-        },
+        msg: result.item + " is available at Amazon for " + res,
         voicemsg: ''
       };
-      response.voicemsg = response.partials.text;
+      response.voicemsg = response.msg;
       callback(JSON.stringify(response));
     })
   },
 
   retailComparisonSearch: function(result, callback) {
     var response = {
-      type: "retailComparisonSearch",
-      partials: {
-        text: "Your intent is " + result.intent
-              + " and your item is " + result.item
-      },
+      msg: "Your intent is " + result.intent
+           + " and your item is " + result.item,
       voicemsg: ''
     };
-    response.voicemsg = response.partials.text;
+    response.voicemsg = response.msg;
     callback(JSON.stringify(response));
   },
 
   twitterTweet: function(result, callback) {
     var response = {
-    type: "twitterTweet",
-    partials: {
-      text: "Your intent is " + result.intent
-            + " and your tweet is " + result.tweet
-    },
+      msg: "Your intent is " + result.intent
+           + " and your tweet is " + result.tweet,
       voicemsg: ''
     };
-    response.voicemsg = response.partials.text;
+    response.voicemsg = response.msg;
     callback(JSON.stringify(response));
   },
 
   facebookPostStatus: function(result, callback) {
     var response = {
-      type: "facebookPostStatus",
-      partials: {
-        text: "Your intent is " + result.intent
-              + " and your Facebook status is " + result.fb_status
-      },
+      msg: "Your intent is " + result.intent
+           + " and your Facebook status is " + result.fb_status,
       voicemsg: ''
     };
-    response.voicemsg = response.partials.text;
+    response.voicemsg = response.msg;
     callback(JSON.stringify(response));
   },
 
@@ -67,26 +65,20 @@ module.exports = {
     expediaService.flightQuery(result, function(err, res) {
       if (err) {
         var response = {
-          type: 'error',
-          errmsg: "I'm sorry, I wasn't able to find any flight results. "
-                  + "You must specify a travel date and use valid three "
-                  + "letter airport codes.",
-          voicemsg: ''
+          msg: "I'm sorry, I wasn't able to find any flight results. "
+               + "You must specify a travel date and use valid three "
+               + "letter airport codes.",
+          voicemsg: 'I\'m sorry, I wasn\'t able to find any flight results.'
         };
-        response.voicemsg = response.partials.text;
         return callback(JSON.stringify(response));
       }
 
       var response = {
-        type: 'generalFlightSearch',
-        partials: {
-          text: "Here are the cheapest flights from " + result.location_from
-                 + " to " + result.location_to + " that I found:",
-          urls: []
-        },
+        msg: "Here are the cheapest flights from " + result.location_from
+             + " to " + result.location_to + " that I found:",
         voicemsg: ''
       };
-      response.voicemsg = response.partials.text;
+      response.voicemsg = response.msg;
 
       for (var i in res) {
         var text = res[i].airline
@@ -98,23 +90,31 @@ module.exports = {
                    + " and arriving on " + res[i].arriveTime + ", "
                    + res[i].price;
 
-        response.partials.urls.push({
-          href: res[i].url,
-          text: text
-        });
-
-        response.voicemsg += text;
-        response.voicemsg += "\n";
+        response.msg += "<br>";
+        response.msg += createAnchor(res[i].url, text);
       }
 
       callback(JSON.stringify(response));
     });
   },
 
-  // TODO: move the code from expediaservice.js
   generalHotelSearch: function(result, callback) {
-    expediaService.hotelQuery(result.query, function(err, res) {
-      callback(res);
+    expediaService.hotelQuery(result.query, function(err, hotels) {
+      var response = {
+        msg: "Here are five well-rated hotels in that area:",
+        voicemsg: ''
+      };
+      response.voicemsg = response.msg;
+
+      for (var i = 0; i < 5 && i < hotels.length; i++) {
+        var hotel = hotels[i];
+        var text = hotel.name + " ($" + hotel.price + ", " + hotel.rating + " stars)";
+
+        response.msg += "<br>";
+        response.msg += createAnchor(hotel.url, text);
+      }
+
+      callback(JSON.stringify(response));
     });
   },
 
@@ -122,32 +122,22 @@ module.exports = {
     food2forkService.recipeQuery(result.item, function(err, res) {
       if (err) {
         var response = {
-          type: 'error',
-          errmsg: "I'm sorry, I couldn't find any recipes for " + result.item,
+          msg: "I'm sorry, I couldn't find any recipes for " + result.item,
           voicemsg: ''
         };
-        response.voicemsg = response.partials.text;
+        response.voicemsg = response.msg;
         return callback(JSON.stringify(response));
       }
 
       var response = {
-        type: 'recipeSearch',
-        partials: {
-          text: "Here are a few recipes for " + result.item + ":\n",
-          urls: []
-        },
+        msg: "Here are a few recipes for " + result.item + ":",
         voicemsg: ''
       };
-      response.voicemsg = response.partials.text;
+      response.voicemsg = response.msg;
 
       for (var i in res) {
-        response.partials.urls.push({
-          href: res[i].url,
-          text: res[i].title
-        });
-
-        response.voicemsg += res[i].title;
-        response.voicemsg += "\n";
+        response.msg += "<br>";
+        response.msg += createAnchor(res[i].url, res[i].title);
       }
 
       callback(JSON.stringify(response));
@@ -158,32 +148,22 @@ module.exports = {
     food2forkService.recipeIngredientQuery(result.items, function(err, res) {
       if (err) {
         var response = {
-          type: 'error',
-          errmsg: "I'm sorry, I couldn't find any good recipes for those items.",
+          msg: "I'm sorry, I couldn't find any good recipes for those items.",
           voicemsg: ''
         };
-        response.voicemsg = response.partials.text;
+        response.voicemsg = response.msg;
         return callback(JSON.stringify(response));
       }
 
       var response = {
-        type: 'recipeSearch',
-        partials: {
-          text: "Here are a few recipes for " + result.item + ":\n",
-          urls: []
-        },
+        msg: "Here are a few recipes for " + result.item + ":",
         voicemsg: ''
       };
-      response.voicemsg = response.partials.text;
+      response.voicemsg = response.msg;
 
       for (var i in res) {
-        response.partials.urls.push({
-          href: res[i].url,
-          text: res[i].title
-        });
-
-        response.voicemsg += res[i].title;
-        response.voicemsg += "\n";
+        response.msg += "<br>";
+        response.msg += createAnchor(res[i].url, res[i].title);
       }
 
       callback(JSON.stringify(response));
