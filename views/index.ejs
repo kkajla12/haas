@@ -19,11 +19,32 @@
     <script src="js/lib/angular-route.min.js"></script>
     <script src="js/app.js"></script>
 </head>
-<body>
-    <div ng-view></div>
+<body ng-controller="HomeController">
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title" ng-click="home()">Haas - Helper as a Service</span>
+          <div class="mdl-layout-spacer"></div>
+          <nav class="mdl-navigation">
+            <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/login">Login</a>
+            <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/register">Register</a>
+            <a ng-if="loggedIn()" class="mdl-navigation__link" href="#/haas">Haas</a>
+            <a ng-if="loggedIn()" class="mdl-navigation__link" href="#/settings">Settings</a>
+            <a ng-if="loggedIn()" ng-click="logout()" class="mdl-navigation__link" href="#/">Logout</a>
+          </nav>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <div ng-view></div>
+        </div>
+      </main>
+    </div>
 
     <!-- Controllers -->
 
+    <script type="text/javascript" src="js/controllers/HomeController.js"></script>
     <script type="text/javascript" src="js/controllers/LoginController.js"></script>
     <script type="text/javascript" src="js/controllers/HaasController.js"></script>
     <script type="text/javascript" src="js/controllers/RegisterController.js"></script>

@@ -2,6 +2,9 @@ var app = angular.module('HAAS', ['ngRoute']);
 
 app.config(function ($routeProvider) {
     $routeProvider.when('/', {
+        templateUrl: '/partials/home.html'
+    });
+    $routeProvider.when('/login', {
         controller: 'LoginController',
         templateUrl: '/partials/login.html'
     });

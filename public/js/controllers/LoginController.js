@@ -32,8 +32,4 @@ app.controller('LoginController', ['$scope', '$location', 'DataService', functio
         $scope.loginError = true;
         $scope.loginErrorMessage = error.data.message;
     }
-
-    $scope.register = function() {
-        $location.path("/register")
-    }
 }]);

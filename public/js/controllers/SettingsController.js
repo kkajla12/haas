@@ -3,6 +3,5 @@ app.controller('SettingsController', ['$scope', '$location', 'DataService', func
 
     $scope.init = function() {
         $scope.settings = DataService.getUserEnv();
-        console.log(DataService.getUserEnv());
     }
 }]);

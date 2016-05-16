@@ -40,6 +40,18 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
             tc.messagingClient.getChannelBySid(channelId).then(function(channel) {
                 channel.join().then(function(joinedChannel) {
                   twilioChannel = joinedChannel
+                  twilioChannel.getMessages().then(function(messages) {
+                    for(var i = 0; i < messages.length; i++) {
+                        if(messages[i].author == "system") {
+                            $scope.messages.push({'message': messages[i].body, 'class': 'message-bot'});
+                        }
+                        else {
+                            $scope.messages.push({'message': messages[i].body, 'class': 'message-user'});
+                        }
+                    }
+                    $scope.$apply();
+                    console.log(messages);
+                  })
                   $scope.twilioInitialized = true;
                   $scope.$apply();
                 });
@@ -78,14 +90,5 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
             $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
             twilioChannel.sendMessage($scope.request);
         }
-    }
-
-    $scope.settings = function() {
-        $location.path('/settings')
-    }
-
-    $scope.logout = function() {
-        DataService.logout();
-        $location.path('/')
     }
 }]);
