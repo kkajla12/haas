@@ -48,14 +48,14 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                   twilioChannel.getMessages().then(function(messages) {
                     for(var i = 0; i < messages.length; i++) {
                         if(messages[i].author == "system") {
-                            $scope.messages.push({'message': messages[i].body, 'class': 'message-bot'});
+                            var response = JSON.parse(messages[i].body);
+                            $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
                         }
                         else {
                             $scope.messages.push({'message': messages[i].body, 'class': 'message-user'});
                         }
                     }
                     $scope.$apply();
-                    console.log(messages);
                   })
                   $scope.twilioInitialized = true;
                   $scope.$apply();
