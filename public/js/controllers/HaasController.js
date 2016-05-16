@@ -1,4 +1,4 @@
-app.controller('HaasController', ['$scope', '$location', 'DataService', function($scope, $location, DataService) {
+app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', function($scope, $sce, $location, DataService) {
     $scope.request = "";
     $scope.twilioInitialized = false;
 
@@ -27,6 +27,11 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
     $scope.scrollMessages = function () {
         messageWindow.scrollTop = messageWindow.scrollHeight;
     }
+
+    // TODO: secure
+    $scope.encodeAnchors = function (message) {
+        return $sce.trustAsHtml(message);
+    };
 
     $scope.init = function() {
        if(!DataService.loggedIn()) {
@@ -57,9 +62,14 @@ app.controller('HaasController', ['$scope', '$location', 'DataService', function
                 });
                 channel.on('messageAdded', function(message) {
                   msg.text = message.body;
+
                   if (msg.text !== $scope.request) {
-                    $scope.messages.push({'message': msg.text, 'class': 'message-bot'});
+                    var response = JSON.parse(msg.text);
+
+                    $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
                     $scope.$apply();
+
+                    msg.text = response.voicemsg;
                     window.speechSynthesis.speak(msg);
                   } else {
                     $scope.request = '';

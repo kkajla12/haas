@@ -7,7 +7,7 @@ var ExpediaFactory = function(){
     var options = {
       apikey: process.env.EXPEDIA_CONSUMER_KEY,
       q: naturalLanguageRequest,
-      verbose: false        
+      verbose: false
     };
     getJSON(url, options, function(err, res) {
       if (err) { return callback(err); }
@@ -138,13 +138,8 @@ var ExpediaFactory = function(){
             hotels.push(getHotelData(res.HotelInfoList.HotelInfo[i]));
           }
           hotels.sort(compareHotels);
-          var message = "Here are five well-rated hotels in that area:\n";
-          for (var i = 0; i < 5; i++) {
-            var hotel = hotels[i];
-            message += hotel.name + " ($" + hotel.price + ", " +
-                       hotel.rating + " stars) - " + hotel.url + "\n";
-          }
-          callback(null, message);
+
+          callback(null, hotels);
         });
       });
     },

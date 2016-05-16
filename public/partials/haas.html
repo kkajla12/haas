@@ -1,12 +1,12 @@
 <div ng-init="init()">
 	<div class="container-messages">
 	    <div id="messages">
-	        <div ng-repeat="message in messages" class="message {{message.class}}">{{message.message}}</div>
+	        <div ng-repeat="message in messages" ng-bind-html="encodeAnchors(message.message)" class="message {{message.class}}"></div>
 	    </div>
 	    <form id="form-query">
 	        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 	            <input class="mdl-textfield__input" type="text" id="_request" ng-model="request" autocomplete="off">
-	            <label class="mdl-textfield__label" for="_request">Question</label>
+	            <label class="mdl-textfield__label" for="_request">Talk to HaaS...</label>
 	        </div>
 	        <div class="container-button">
 	            <button class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="sendRequest()" ng-if="twilioInitialized">Send</button>
