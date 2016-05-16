@@ -3,9 +3,11 @@
 
 var ExpediaService = require('../expediaservice');
 var AmazonService = require('../amazonservice');
+var Food2ForkService = require('../food2forkservice');
 
 var expediaService = new ExpediaService();
 var amazonService = new AmazonService();
+var food2forkService = new Food2ForkService();
 
 module.exports = {
 
@@ -31,14 +33,62 @@ module.exports = {
   },
 
   generalFlightSearch: function(result, callback) {
-    callback("Your intent is " + result.intent +
-             " and you want to book a flight from " + result.location_from +
-             " to " + result.location_to + " on " + result.datetime);
+    expediaService.flightQuery(result, function(err, res) {
+      if (err) {
+        return callback("I'm sorry, I wasn't able to find any flight results. " + 
+                 "You must specify a travel date and use valid three letter " +
+                 "airport codes.");
+      }
+      var response = "Here are the cheapest flights from " + result.location_from +
+                     " to " + result.location_to + " that I found:\n";
+      for (var i in res) {
+        response += res[i].airline + 
+                    " Flight" + (res[i].flightNums.length > 1 ? "s " : " ") +
+                    res[i].flightNums.slice(0, res[i].flightNums.length - 1).join(", ") +
+                    (res[i].flightNums.length > 1 ? " and " : "") +
+                    res[i].flightNums[res[i].flightNums.length - 1] +
+                    " departing on " + res[i].departTime +
+                    " and arriving on " + res[i].arriveTime + ", " +
+                    res[i].price + " " +
+                    res[i].url + "\n";
+      }
+      callback(response);
+    });
   },
 
   generalHotelSearch: function(result, callback) {
-    expediaService.query(result.query, function(err, res) {
+    expediaService.hotelQuery(result.query, function(err, res) {
       callback(res);
+    });
+  },
+
+  recipeSearch: function(result, callback) {
+    food2forkService.recipeQuery(result.item, function(err, res) {
+      if (err) {
+        return callback("I'm sorry, I couldn't find any recipes for " + result.item);
+      }
+      var response = "Here are a few recipes for " + result.item + ":\n";
+      var prefix = "";
+      for (var i in res) {
+        response += prefix + res[i].title + " (" + res[i].url + ")";
+        prefix = "\n";
+      }
+      callback(response);
+    });
+  },
+
+  recipeIngredientSearch: function(result, callback) {
+    food2forkService.recipeIngredientQuery(result.items, function(err, res) {
+      if (err) { 
+        return callback("I'm sorry, I couldn't find any good recipes for those items.");
+      }
+      var response = "Here are a few recipes for " + result.item + ":\n";
+      var prefix = "";
+      for (var i in res) {
+        response += prefix + res[i].title + " (" + res[i].url + ")";
+        prefix = "\n";
+      }
+      callback(response);
     });
   }
 

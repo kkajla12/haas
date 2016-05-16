@@ -70,8 +70,49 @@ var ExpediaFactory = function(){
     return h1.price - h2.price;
   };
 
+  var getFlights = function(from, to, date, callback) {
+    var url = 'http://terminal2.expedia.com:80/x/mflights/search';
+    var options = {
+      apikey: process.env.EXPEDIA_CONSUMER_KEY,
+      departureDate: date,
+      departureAirport: from,
+      arrivalAirport: to
+    };
+    getJSON(url, options, function(err, res) {
+      if (err) { return callback(err); }
+      callback(null, JSON.parse(res));
+    });
+  };
+
+  var formatFlightData = function(data) {
+    var flights = [];
+    var topOffers = data.offers.slice(0,5);
+    for (var i in topOffers) {
+      var id = topOffers[i].legIds[0];
+      var leg;
+      for (var k in data.legs) {
+        if (data.legs[k].legId === id) {
+          leg = data.legs[k];
+          break;
+        }
+      }
+      if (leg !== undefined) {
+        flights.push({
+          airline: leg.segments[0].airlineName,
+          flightNums: leg.segments.map(seg => seg.flightNumber),
+          departTime: leg.segments[0].departureTime,
+          arriveTime: leg.segments[leg.segments.length - 1].arrivalTime,
+          price: topOffers[i].totalFarePrice.formattedPrice,
+          url: topOffers[i].detailsUrl
+        });
+      }
+    }
+    return flights;
+  }
+
   return {
-    query: function(request, callback) {
+
+    hotelQuery: function(request, callback) {
       getHotelsNLP(request, function(err, res) {
         if (err) { return callback(err); }
         var location = {
@@ -106,7 +147,19 @@ var ExpediaFactory = function(){
           callback(null, message);
         });
       });
+    },
+
+    flightQuery: function(request, callback) {
+      var date = request.datetime.substring(0, request.datetime.indexOf('T'));
+      getFlights(request.location_from, request.location_to, request.datetime, function(err, res) {
+        if (Object.keys(res).length > 0) {
+          callback(null, formatFlightData(res));
+        } else {
+          callback(true);
+        }
+      });
     }
+
   };
 
 };
