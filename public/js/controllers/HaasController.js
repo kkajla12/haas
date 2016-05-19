@@ -56,7 +56,8 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                         }
                     }
                     $scope.$apply();
-                  })
+                    $scope.scrollMessages();
+                  });
                   $scope.twilioInitialized = true;
                   $scope.$apply();
                 });
@@ -99,7 +100,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
         if ($scope.request !== "" && $scope.twilioInitialized === true) {
             $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
             var request = $scope.request;
-        
+
             twilioChannel.sendMessage(request);
         }
     }
