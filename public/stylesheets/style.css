@@ -62,10 +62,10 @@ h1, h2, h4 {
     margin: 0 auto 10px 0;
 }
 
-body {
+/*body {
     background-image: url('../img/background.jpg');
     background-size: cover;
-}
+}*/
 
 .card.mdl-card {
     width: 400px;
