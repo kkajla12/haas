@@ -61,3 +61,24 @@ h1, h2, h4 {
     background-color: rgb(68,138,255);
     margin: 0 auto 10px 0;
 }
+
+body {
+    background-image: url('../img/background.jpg');
+    background-size: cover;
+}
+
+.card.mdl-card {
+    width: 400px;
+    height: 400px;
+}
+
+.card > .mdl-card__title {
+    height: 400px;
+    color: #111;
+    background: url('../img/haas.png') center / cover;
+}
+
+.haas-card-wrapper {
+    padding: 100px;
+    padding-left: 200px;
+}
