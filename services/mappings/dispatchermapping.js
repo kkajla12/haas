@@ -41,26 +41,6 @@ module.exports = {
     callback(JSON.stringify(response));
   },
 
-  twitterTweet: function(result, callback) {
-    var response = {
-      msg: "Your intent is " + result.intent
-           + " and your tweet is " + result.tweet,
-      voicemsg: ''
-    };
-    response.voicemsg = response.msg;
-    callback(JSON.stringify(response));
-  },
-
-  facebookPostStatus: function(result, callback) {
-    var response = {
-      msg: "Your intent is " + result.intent
-           + " and your Facebook status is " + result.fb_status,
-      voicemsg: ''
-    };
-    response.voicemsg = response.msg;
-    callback(JSON.stringify(response));
-  },
-
   generalFlightSearch: function(result, callback) {
     expediaService.flightQuery(result, function(err, res) {
       if (err) {
