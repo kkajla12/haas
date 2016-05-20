@@ -80,6 +80,15 @@ module.exports = {
 
   generalHotelSearch: function(result, callback) {
     expediaService.hotelQuery(result.query, function(err, hotels) {
+      if (err) {
+        var response = {
+          msg: "I'm sorry, I wasn't able to find any hotel results. "
+               + "You must specify a valid location and date.",
+          voicemsg: 'I\'m sorry, I wasn\'t able to find any hotel results.'
+        };
+        return callback(JSON.stringify(response));
+      }
+
       var response = {
         msg: "Here are five well-rated hotels in that area:",
         voicemsg: ''
