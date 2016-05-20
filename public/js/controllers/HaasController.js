@@ -1,5 +1,6 @@
 app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', function($scope, $sce, $location, DataService) {
     $scope.request = "";
+    var savedRequest = "";
     $scope.twilioInitialized = false;
 
     var twilioToken = "";
@@ -56,6 +57,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                         }
                     }
                     $scope.$apply();
+                    $scope.scrollMessages();
                   })
                   $scope.twilioInitialized = true;
                   $scope.$apply();
@@ -63,7 +65,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                 channel.on('messageAdded', function(message) {
                   msg.text = message.body;
 
-                  if (msg.text !== $scope.request) {
+                  if (msg.text !== savedRequest) {
                     var response = JSON.parse(msg.text);
 
                     $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
@@ -71,9 +73,6 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
 
                     msg.text = response.voicemsg;
                     window.speechSynthesis.speak(msg);
-                  } else {
-                    $scope.request = "";
-                    $scope.$apply();
                   }
                   $scope.scrollMessages();
                 });
@@ -98,9 +97,11 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     $scope.sendRequest = function () {
         if ($scope.request !== "" && $scope.twilioInitialized === true) {
             $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
-            var request = $scope.request;
+            savedRequest = $scope.request;
+            $scope.request = "";
+            $scope.scrollMessages();
         
-            twilioChannel.sendMessage(request);
+            twilioChannel.sendMessage(savedRequest);
         }
     }
 }]);
