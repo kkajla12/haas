@@ -58,7 +58,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                     }
                     $scope.$apply();
                     $scope.scrollMessages();
-                  })
+                  });
                   $scope.twilioInitialized = true;
                   $scope.$apply();
                 });

@@ -41,26 +41,6 @@ module.exports = {
     callback(JSON.stringify(response));
   },
 
-  twitterTweet: function(result, callback) {
-    var response = {
-      msg: "Your intent is " + result.intent
-           + " and your tweet is " + result.tweet,
-      voicemsg: ''
-    };
-    response.voicemsg = response.msg;
-    callback(JSON.stringify(response));
-  },
-
-  facebookPostStatus: function(result, callback) {
-    var response = {
-      msg: "Your intent is " + result.intent
-           + " and your Facebook status is " + result.fb_status,
-      voicemsg: ''
-    };
-    response.voicemsg = response.msg;
-    callback(JSON.stringify(response));
-  },
-
   generalFlightSearch: function(result, callback) {
     expediaService.flightQuery(result, function(err, res) {
       if (err) {
@@ -100,6 +80,15 @@ module.exports = {
 
   generalHotelSearch: function(result, callback) {
     expediaService.hotelQuery(result.query, function(err, hotels) {
+      if (err) {
+        var response = {
+          msg: "I'm sorry, I wasn't able to find any hotel results. "
+               + "You must specify a valid location and date.",
+          voicemsg: 'I\'m sorry, I wasn\'t able to find any hotel results.'
+        };
+        return callback(JSON.stringify(response));
+      }
+
       var response = {
         msg: "Here are five well-rated hotels in that area:",
         voicemsg: ''
@@ -156,7 +145,10 @@ module.exports = {
       }
 
       var response = {
-        msg: "Here are a few recipes for " + result.item + ":",
+        msg: "Here are a few recipes using "
+             + result.items.slice(0, result.items.length - 1).join(", ")
+             + (result.items.length > 1 ? " and " : "")
+             + result.items[result.items.length - 1] + ":",
         voicemsg: ''
       };
       response.voicemsg = response.msg;

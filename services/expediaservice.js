@@ -115,21 +115,25 @@ var ExpediaFactory = function(){
     hotelQuery: function(request, callback) {
       getHotelsNLP(request, function(err, res) {
         if (err) { return callback(err); }
-        var location = {
-          lat: res.result.regions[0].center.lat,
-          lng: res.result.regions[0].center.lng
-        };
-        var hotelIds = [];
-        for (var i in res.result.hotels) {
-          hotelIds.push(res.result.hotels[i].id);
-        }
-        var checkIn = '';
-        var checkOut = '';
-        for (var j in res.concepts) {
-          if (res.concepts[j].type === 'DATE') {
-            checkIn = res.concepts[j].domainValues[0].value;
-            checkOut = res.concepts[j].domainValues[1].value;
+        try {
+          var location = {
+            lat: res.result.regions[0].center.lat,
+            lng: res.result.regions[0].center.lng
+          };
+          var hotelIds = [];
+          for (var i in res.result.hotels) {
+            hotelIds.push(res.result.hotels[i].id);
           }
+          var checkIn = '';
+          var checkOut = '';
+          for (var j in res.concepts) {
+            if (res.concepts[j].type === 'DATE') {
+              checkIn = res.concepts[j].domainValues[0].value;
+              checkOut = res.concepts[j].domainValues[1].value;
+            }
+          }
+        } catch (e) {
+          return callback(e);
         }
         getHotels(location, hotelIds, checkIn, checkOut, function(err, res) {
           if (err) { return callback(err); }

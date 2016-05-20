@@ -18,8 +18,6 @@ var UserEnvSchema = new mongoose.Schema({
       default: true
     }
   },
-  facebookToken: String,
-  twitterToken: String,
   googleVoicePreference: {
     type: Number,
     min: 1,
