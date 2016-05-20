@@ -156,7 +156,10 @@ module.exports = {
       }
 
       var response = {
-        msg: "Here are a few recipes for " + result.item + ":",
+        msg: "Here are a few recipes using "
+             + result.items.slice(0, result.items.length - 1).join(", ")
+             + (result.items.length > 1 ? " and " : "")
+             + result.items[result.items.length - 1] + ":",
         voicemsg: ''
       };
       response.voicemsg = response.msg;
