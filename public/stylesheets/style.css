@@ -36,6 +36,8 @@ main {
 }
 
 .container-messages {
+    /* 100vh - height of header - padding for message container */
+    height: calc(100vh - 64px - 60px);
     width: 100vw;
     margin: 0;
     padding: 30px 0;
@@ -43,7 +45,8 @@ main {
 
 #messages {
     border: 2px solid #ecf0f1;
-    height: 70vh;
+    /* 100% of container - height of form - bottom padding*/
+    height: calc(100% - 103px - 30px);
     margin: auto;
     max-width: 900px;
     overflow-y: auto;
