@@ -16,7 +16,7 @@ main {
 }
 
 #form-query {
-    max-width: 300px;
+    max-width: 900px;
     margin: auto;
 }
 
@@ -24,11 +24,16 @@ main {
     display: block;
 }
 
+#textfield-query {
+    width: 100%;
+}
+
 .container-button {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 100%;
+    margin: auto;
+    width: 300px;
 }
 
 .button-form {
