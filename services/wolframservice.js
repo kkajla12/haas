@@ -20,7 +20,7 @@ var WolframFactory = function(){
           response.msg = 'I\'m sorry, I don\'t know. Try this link for more information:\n';
           response.msg += '<a href="';
           response.msg += 'http://lmgtfy.com/?q=' + encodeURI(request);
-          response.msg += '" style=\'color:white\' target=\'_blank\'>'; // TODO: css class
+          response.msg += '" style=\'color:black\' target=\'_blank\'>'; // TODO: css class
           response.msg += request;
           response.msg += '</a>';
           response.voicemsg = 'I\'m sorry, I don\'t know.';
