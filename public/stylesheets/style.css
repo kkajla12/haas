@@ -2,6 +2,14 @@ h1, h2, h4 {
     text-align: center;
 }
 
+main {
+    background: url('../img/material-mountains.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .form-auth {
     max-width: 300px;
     margin: auto;
@@ -47,7 +55,6 @@ h1, h2, h4 {
     box-shadow: 0 2px 2px 0     rgba(0,0,0,.14),
                 0 3px 1px -2px  rgba(0,0,0,.2),
                 0 1px 5px 0     rgba(0,0,0,.12);
-    color: white;
     max-width: 350px;
     overflow-wrap: break-word;
     padding: 5px 10px 5px 10px;
@@ -56,18 +63,15 @@ h1, h2, h4 {
 }
 
 .message-user {
-    background-color: rgb(244,67,54);
+    background-color: #19967b;
+    color: white;
     margin: 0 0 10px auto;
 }
 
 .message-bot {
-    background-color: rgb(68,138,255);
+    background-color: #bdc9a5;
+    color: black;
     margin: 0 auto 10px 0;
-}
-
-body {
-    background-image: url('../img/background.jpg');
-    background-size: cover;
 }
 
 .card.mdl-card {

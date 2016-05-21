@@ -13,7 +13,7 @@ function createAnchor(href, text) {
     var anchor = '';
     anchor += '<a href="';
     anchor += href;
-    anchor += '" style=\'color:white\' target=\'_blank\'>'; // TODO: css class
+    anchor += '" style=\'color:black\' target=\'_blank\'>'; // TODO: css class
     anchor += text;
     anchor += "</a>";
     return anchor;
