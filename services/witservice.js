@@ -25,6 +25,7 @@ var WitFactory = function() {
         var result = {};
         if (err) {
           console.log('Oops! Got an error: ' + err);
+          return failCallback();
         } else {
           console.log(JSON.stringify(data));
           var conf = data.outcomes[0].confidence;
