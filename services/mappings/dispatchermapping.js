@@ -90,17 +90,26 @@ module.exports = {
       }
 
       var response = {
-        msg: "Here are five well-rated hotels in that area:",
+        msg: "Here are some well-rated hotels in that area:",
         voicemsg: ''
       };
       response.voicemsg = response.msg;
 
-      for (var i = 0; i < 5 && i < hotels.length; i++) {
+      var count = 0;
+      for (var i = 0; count < 5 && i < hotels.length; i++) {
         var hotel = hotels[i];
-        var text = hotel.name + " ($" + hotel.price + ", " + hotel.rating + " stars)";
+        if (hotel.price !== "N/A") {
+          var text = hotel.name + " ($" + hotel.price + ", " + hotel.rating + " stars)";
+          response.msg += "<br>";
+          response.msg += createAnchor(hotel.url, text);
+          count++;
+        }
+      }
 
-        response.msg += "<br>";
-        response.msg += createAnchor(hotel.url, text);
+      if (count === 0) {
+        response.msg = "I'm sorry, there are no hotels available in that "
+                       + "area for the specified date.";
+        response.voicemsg = response.msg;
       }
 
       callback(JSON.stringify(response));
