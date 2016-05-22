@@ -23,8 +23,8 @@ module.exports = {
   generalFlightSearch: function(data) {
     return {
       intent: 'generalFlightSearch',
-      location_from: data.outcomes[0].entities.from[0].value,
-      location_to: data.outcomes[0].entities.to[0].value,
+      location_from: data.outcomes[0].entities.from[0].value.toUpperCase(),
+      location_to: data.outcomes[0].entities.to[0].value.toUpperCase(),
       datetime: data.outcomes[0].entities.datetime[0].value
     };
   },
