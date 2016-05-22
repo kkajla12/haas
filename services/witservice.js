@@ -16,37 +16,29 @@ var WitFactory = function() {
   };
   var client = new Wit(process.env.WIT_ACCESS_TOKEN, actions);
 
-  // 
-  // NOTE: Refactor to use one callback with an error object
-  // 
   return {
-    getIntent: function(request, minConfidence, successCallback, failCallback) {
+    getIntent: function(request, minConfidence, callback) {
       client.message(request, function(err, data) {
-        var result = {};
-        if (err) {
-          console.log('Oops! Got an error: ' + err);
-          return failCallback();
-        } else {
-          console.log(JSON.stringify(data));
-          var conf = data.outcomes[0].confidence;
-          if(conf < minConfidence) {
-            result.confidence = conf;
+        if (err) { return callback(err); } 
 
-            // perform callback for when confidence level is not met
-            return failCallback(result);
-          }
+        console.log(JSON.stringify(data));
 
-          var intent = data.outcomes[0].entities.intent[0].value;
-          try {
-            result = mapping[intent](data);
-            result.query = request;
-          } catch (ex) {
-            return failCallback();
-          }
-
-          // perform callback for when confidence level is met
-          return successCallback(result);
+        var conf = data.outcomes[0].confidence;
+        if(conf < minConfidence) {
+          return callback(new Error("Confidence threshold not met."));
         }
+
+        var result = {};
+        var intent = data.outcomes[0].entities.intent[0].value;
+        try {
+          result = mapping[intent](data);
+          result.query = request;
+        } catch (ex) {
+          return callback(ex);
+        }
+
+        // confidence level is met, and mapping was successful
+        return callback(null, result);
       });
     }
   };
