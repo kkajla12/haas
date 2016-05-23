@@ -13,7 +13,7 @@ var CustomQueryFactory = function(){
 
   return {
     query: function(dirtyQuery, callback) {
-      var punctless = dirtyQuery.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()']/g, "");
+      var punctless = dirtyQuery.replace(/[.,\?\/#!$%\^&\*;:{}=\-_`~()']/g, "");
       var query = punctless.replace(/\s{2,}/g, " ");
 
       // Iterate through possible custom IDs, checking if the query

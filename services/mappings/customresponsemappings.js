@@ -14,7 +14,7 @@ module.exports = {
       },
       {
         msg: "What's up?",
-        voicemsg: "What's up?"
+        voicemsg: "What's up"
       },
       {
         msg: "How you doin?",
@@ -112,6 +112,10 @@ module.exports = {
              + "when my creators first had the idea to create me.",
         voicemsg: "I don’t remember exactly. Some say I was born in March of "
                   + "2016 when my creators first had the idea to create me."
+      },
+      {
+        msg: "Spring of 2016.",
+        voicemsg: "Spring of 2016."
       }
     ];
     var index = Math.round(Math.random() * (responses.length - 1));

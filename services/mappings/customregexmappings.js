@@ -21,7 +21,9 @@ module.exports = {
   haasOrigin: [
     /^where\sare\syou\sfrom/i,
     /^where\swere\syou\sborn/i,
-    /^where\sdid\syou\scome\sfrom/i
+    /^where\sdid\syou\scome\sfrom/i,
+    /^where\swere\syou\screated/i,
+    /^where\swere\syou\smade/i
   ],
 
   friend: [
@@ -38,13 +40,19 @@ module.exports = {
     /^youre\scool/i,
     /^you\sare\scool/i,
     /^youre\sfunny/i,
-    /^you\sare\sfunny/i
+    /^you\sare\sfunny/i,
+    /^youre\s(so+\s)?smart/i,
+    /^you\sare\s(so+\s)?smart/i,
+    /^youre\s(such\s)?a\sgenius/i,
+    /^you\sare\s(such\s)?a\sgenius/i
   ],
 
   haasBirthday: [
     /^when\sis\syour\sbirthday/i,
     /^whens\syour\sbirthday/i,
-    /^when\swere\syou\sborn/i
+    /^when\swere\syou\sborn/i,
+    /^when\swere\syou\screated/i,
+    /^when\swere\syou\smade/i
   ],
 
   joke: [
@@ -56,7 +64,8 @@ module.exports = {
 
   haasCreator: [
     /^who\screated\syou/i,
-    /^who\smade\syou/i
+    /^who\smade\syou/i,
+    /^who\sbuilt\syou/i
   ],
 
   shrek: [
@@ -78,7 +87,14 @@ module.exports = {
   terminal: [
     /^cd/i,
     /^rm/i,
-    /^exit$/i
+    /^exit$/i,
+    /^mv/i,
+    /^cp/i,
+    /^ls/i,
+    /^mkdir/i,
+    /^grep/i,
+    /^chmod/i,
+    /^ps/i
   ],
 
   insult: [
@@ -88,7 +104,8 @@ module.exports = {
     /^you\sare\san\sidiot/i,
     /^youre\sdumb/i,
     /^you\sare\sdumb/i,
-    /^you\ssuck/i
+    /^you\ssuck/i,
+    /^fuck\syou/i
   ],
 
   echo: [
