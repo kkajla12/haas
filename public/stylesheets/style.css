@@ -122,3 +122,12 @@ main {
     padding: 100px;
     padding-left: 200px;
 }
+
+.container-settings {
+    margin: 32px auto;
+    max-width: 240px;
+}
+
+.setting {
+    margin: 16px 0;
+}

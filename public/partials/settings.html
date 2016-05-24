@@ -1,3 +1,26 @@
-<div ng-init="init()">
-	<p ng-repeat="setting in settings">{{setting}}</p>
+<div class="container-settings" ng-init="init()">
+    <div class="setting">
+        <div>
+            Google Voice Preference:
+            <select name="Google Voice Preference" ng-options="voice as voice.name for voice in voices track by voice.id" ng-model="googleVoicePreference"></select>
+        </div>
+    </div>
+    <div class="setting">
+        <div>
+            Travel Search Preference:
+        </div>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-expedia">
+            <input type="checkbox" id="switch-expedia" class="mdl-switch__input" ng-model="expedia">
+            <span class="mdl-switch__label">Expedia</span>
+        </label>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-kayak">
+            <input type="checkbox" id="switch-kayak" class="mdl-switch__input" ng-model="kayak">
+            <span class="mdl-switch__label">Kayak</span>
+        </label>
+    </div>
+    <div class="container-button">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" ng-click="saveSettings()">
+            Save Settings
+        </button>
+    </div>
 </div>
