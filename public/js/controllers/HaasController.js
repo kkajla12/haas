@@ -2,6 +2,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     $scope.request = "";
     var savedRequest = "";
     $scope.twilioInitialized = false;
+    $scope.messagesInitialized = false;
 
     var twilioToken = "";
     var channelId = "";
@@ -56,6 +57,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                             $scope.messages.push({'message': messages[i].body, 'class': 'message-user'});
                         }
                     }
+                    $scope.messagesInitialized = true;
                     $scope.$apply();
                     $scope.scrollMessages();
                   });

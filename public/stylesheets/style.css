@@ -85,3 +85,9 @@ body {
     padding: 100px;
     padding-left: 200px;
 }
+
+.progress {
+    margin: auto;
+    position: relative;
+    top: 50%;
+}

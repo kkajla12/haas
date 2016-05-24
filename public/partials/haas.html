@@ -2,6 +2,7 @@
 	<div class="container-messages">
 	    <div id="messages">
 	        <div ng-repeat="message in messages" ng-bind-html="encodeAnchors(message.message)" class="message {{message.class}}"></div>
+	        <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate progress" ng-if="!messagesInitialized"></div>
 	    </div>
 	    <form id="form-query">
 	        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
