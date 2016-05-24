@@ -1,13 +1,16 @@
 <div ng-init="init()">
-	<div class="container-messages">
-	    <div id="messages">
-	        <div ng-repeat="message in messages" ng-bind-html="encodeAnchors(message.message)" class="message {{message.class}}"></div>
-	        <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate progress" ng-if="!messagesInitialized"></div>
-	    </div>
+	<div class="container-haas">
+		<div class="container-messages">
+		    <div id="messages">
+		        <div ng-repeat="message in messages" ng-bind-html="encodeAnchors(message.message)" class="message {{message.class}}"></div>
+		        <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate progress" ng-if="!messagesInitialized"></div>
+		    </div>
+		    <div id="messages-blur"></div>
+		</div>
 	    <form id="form-query">
-	        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-	            <input class="mdl-textfield__input" type="text" id="_request" ng-model="request" autocomplete="off">
-	            <label class="mdl-textfield__label" for="_request">Talk to HaaS...</label>
+	        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="textfield-query">
+		            <input class="mdl-textfield__input" type="text" id="_request" ng-model="request" autocomplete="off">
+		            <label class="mdl-textfield__label" for="_request">Talk to HaaS...</label>
 	        </div>
 	        <div class="container-button">
 	            <button class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="sendRequest()" ng-if="twilioInitialized">Send</button>

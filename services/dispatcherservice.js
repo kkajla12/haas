@@ -1,6 +1,7 @@
 var Twilio = require('twilio');
 var WolframService = require('./wolframservice');
 var WitService = require('./witservice');
+var CustomQueryService = require('./customqueryservice');
 var mapping = require('./mappings/dispatchermapping');
 
 var DispatcherFactory = function(){
@@ -13,28 +14,45 @@ var DispatcherFactory = function(){
 
       var wolframService = new WolframService();
       var witService = new WitService();
+      var customQueryService = new CustomQueryService();
 
-      // Provides a success callback and a failure callback
-      // to the Wit Service to be executed depending on the
-      // confidence of Wit's classification of the query
-      //
-      // Success: create appropriate response using third
-      // party API calls.
-      // Failure: query Wolfram Alpha service and return
-      // its response.
-      witService.getIntent(query, 1, function(result) {
-        mapping[result.intent](result, function(body) {
-          service.channels(channelSid).messages.create({
-            body: body
-          }).then(function(response) {
-              console.log(response);
-              console.log(result);
-          }).fail(function(error) {
-              console.log(error);
+      customQueryService.query(query, function(err, message) {
+
+        if (err) {
+          // Failed to match with custom query.
+          // Attempt to grab intent from query using wit.
+          witService.getIntent(query, 1, function(err, result) {
+            if (err) {
+              // Failure: query Wolfram Alpha service and return
+              // its response.
+              wolframService.query(query, function(message) {
+                service.channels(channelSid).messages.create({
+                  body: message
+                }).then(function(response) {
+                    console.log(response);
+                    console.log(message);
+                }).fail(function(error) {
+                    console.log(error);
+                });
+              });
+            } else {
+              // Success: create appropriate response using third
+              // party API calls.
+              mapping[result.intent](result, function(body) {
+                service.channels(channelSid).messages.create({
+                  body: body
+                }).then(function(response) {
+                    console.log(response);
+                    console.log(result);
+                }).fail(function(error) {
+                    console.log(error);
+                });
+              });
+            }
           });
-        });
-      }, function() {
-        wolframService.query(query, function(message) {
+        } else {
+          // Successfully matched with custom query, so send back
+          // custom response.
           service.channels(channelSid).messages.create({
             body: message
           }).then(function(response) {
@@ -43,7 +61,8 @@ var DispatcherFactory = function(){
           }).fail(function(error) {
               console.log(error);
           });
-        });
+        }
+
       });
     }
   };

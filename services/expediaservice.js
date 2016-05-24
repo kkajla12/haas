@@ -138,11 +138,16 @@ var ExpediaFactory = function(){
         getHotels(location, hotelIds, checkIn, checkOut, function(err, res) {
           if (err) { return callback(err); }
           var hotels = [];
-          for (var i in res.HotelInfoList.HotelInfo) {
-            hotels.push(getHotelData(res.HotelInfoList.HotelInfo[i]));
-          }
-          hotels.sort(compareHotels);
 
+          try {
+            for (var i in res.HotelInfoList.HotelInfo) {
+              hotels.push(getHotelData(res.HotelInfoList.HotelInfo[i]));
+            }
+          } catch (e) {
+            return callback(e);
+          }
+
+          hotels.sort(compareHotels);
           callback(null, hotels);
         });
       });

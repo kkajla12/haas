@@ -4,6 +4,8 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     $scope.twilioInitialized = false;
     $scope.messagesInitialized = false;
 
+    var userEnv;
+
     var twilioToken = "";
     var channelId = "";
     var tc = {};
@@ -12,6 +14,14 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     window.speechSynthesis.onvoiceschanged = function() {
         var voices = window.speechSynthesis.getVoices();
         msg.voice = voices[1]; // Note: some voices don't support altering params
+
+        for (var voice in voices) {
+            if (voices[voice].name === userEnv.googleVoicePreference.name) {
+                msg.voice = voices[voice];
+                break;
+            }
+        }
+
         msg.voiceURI = 'native';
         msg.volume = 1; // 0 to 1
         msg.rate = 0.9; // 0.1 to 10
@@ -40,6 +50,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
             $location.path('/');
         }
         else {
+            userEnv = DataService.getUserEnv();
             twilioToken = DataService.getTwilioToken();
             channelId = DataService.getChannelId();
             tc.accessManager = new Twilio.AccessManager(twilioToken);
@@ -74,6 +85,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                     $scope.$apply();
 
                     msg.text = response.voicemsg;
+
                     window.speechSynthesis.speak(msg);
                   }
                   $scope.scrollMessages();
@@ -102,7 +114,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
             savedRequest = $scope.request;
             $scope.request = "";
             $scope.scrollMessages();
-        
+
             twilioChannel.sendMessage(savedRequest);
         }
     }
