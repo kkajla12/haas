@@ -1,5 +1,6 @@
 app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseService, $window) {
     var userToken = "";
+    var messages = [];
 
     return {
         getUserToken: function() {
@@ -34,6 +35,14 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
             $window.localStorage.setItem('user-env', JSON.stringify(env));
         },
 
+        getMessages: function() {
+            return messages;
+        },
+
+        saveMessages: function(msgs) {
+            messages = msgs;
+        },
+
         login: function(data, successCallback, failCallback) {
             APIPromiseService.login(data)
             .then(function(res) {
@@ -48,6 +57,7 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
             $window.localStorage.removeItem('twilio-token');
             $window.localStorage.removeItem('channel-id');
             $window.localStorage.removeItem('user-env');
+            messages = [];
         },
 
         loggedIn: function() {

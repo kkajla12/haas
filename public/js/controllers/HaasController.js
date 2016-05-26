@@ -36,10 +36,6 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
 
     $scope.messages = [];
 
-    $scope.scrollMessages = function () {
-        messageWindow.scrollTop = messageWindow.scrollHeight;
-    }
-
     // TODO: secure
     $scope.encodeAnchors = function (message) {
         return $sce.trustAsHtml(message);
@@ -53,25 +49,31 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
             userEnv = DataService.getUserEnv();
             twilioToken = DataService.getTwilioToken();
             channelId = DataService.getChannelId();
+            /*$scope.messages = DataService.getMessages();
+            if($scope.messages.length != 0) {
+                $scope.messagesInitialized = true;
+            }*/
             tc.accessManager = new Twilio.AccessManager(twilioToken);
             tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
             tc.messagingClient.getChannelBySid(channelId).then(function(channel) {
                 channel.join().then(function(joinedChannel) {
-                  twilioChannel = joinedChannel
-                  twilioChannel.getMessages().then(function(messages) {
-                    for(var i = 0; i < messages.length; i++) {
-                        if(messages[i].author == "system") {
-                            var response = JSON.parse(messages[i].body);
-                            $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
+                    twilioChannel = joinedChannel
+                    if(!$scope.messagesInitialized) {
+                      twilioChannel.getMessages().then(function(messages) {
+                        for(var i = 0; i < messages.length; i++) {
+                            if(messages[i].author == "system") {
+                                var response = JSON.parse(messages[i].body);
+                                $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
+                            }
+                            else {
+                                $scope.messages.push({'message': messages[i].body, 'class': 'message-user'});
+                            }
                         }
-                        else {
-                            $scope.messages.push({'message': messages[i].body, 'class': 'message-user'});
-                        }
+                        $scope.messagesInitialized = true;
+                        //DataService.saveMessages($scope.messages);
+                        $scope.$apply();
+                      });
                     }
-                    $scope.messagesInitialized = true;
-                    $scope.$apply();
-                    $scope.scrollMessages();
-                  });
                   $scope.twilioInitialized = true;
                   $scope.$apply();
                 });
@@ -81,14 +83,15 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                   if (msg.text !== savedRequest) {
                     var response = JSON.parse(msg.text);
 
+                    $scope.messages.pop();
                     $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
-                    $scope.$apply();
+                    //DataService.saveMessages($scope.messages);
 
                     msg.text = response.voicemsg;
 
                     window.speechSynthesis.speak(msg);
                   }
-                  $scope.scrollMessages();
+                  $scope.$apply();
                 });
             });
         }
@@ -111,9 +114,9 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     $scope.sendRequest = function () {
         if ($scope.request !== "" && $scope.twilioInitialized === true) {
             $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
+            $scope.messages.push({'message': "...", 'class': 'message-bot'});
             savedRequest = $scope.request;
             $scope.request = "";
-            $scope.scrollMessages();
 
             twilioChannel.sendMessage(savedRequest);
         }
