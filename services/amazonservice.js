@@ -13,13 +13,18 @@ var AmazonFactory = function(){
       opHelper.execute('ItemSearch', {
         'SearchIndex': 'All',
         'Keywords': keywords,
-        'ResponseGroup': 'ItemAttributes'
-      }).then((response) => {
-          console.log("Results: ", response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.ListPrice.FormattedPrice);
-          callback(null, response.result.ItemSearchResponse.Items.Item[0].ItemAttributes.ListPrice.FormattedPrice);
-      }).catch((err) => {
-          console.error("Something went wrong! ", err);
-          callback(err);
+        'ResponseGroup': 'OfferFull,ItemAttributes'
+      }).then(function(response) {
+        var item = response.result.ItemSearchResponse.Items.Item[0];
+        callback(null, {
+          title: item.ItemAttributes.Title,
+          price: item.Offers.Offer.OfferListing.Price.FormattedPrice,
+          url: item.DetailPageURL,
+          upc: item.ItemAttributes.UPC
+        });
+      }).catch(function(err) {
+        console.error("Something went wrong! ", err);
+        callback(err);
       });
     }
   };

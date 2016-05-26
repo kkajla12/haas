@@ -25,6 +25,7 @@
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0",
     "twilio": "^2.9.1",
-    "wolfram": "^0.3.2"
+    "wolfram": "^0.3.2",
+    "xml2js": "^0.4.16"
   }
 }
