@@ -211,7 +211,7 @@ module.exports = {
     var responses = [
       {
         msg: "This isn’t a terminal you know...",
-        voicemsg: "This isn’t a terminal, you know."
+        voicemsg: "This isn’t a terminal you know..."
       },
       {
         msg: "Beep boop bop... Sorry, I got a segmentation fault.",
@@ -245,10 +245,39 @@ module.exports = {
     return responses[index];
   },
 
+  whatAmI: function() {
+    var responses = [
+      {
+        msg: "What do you think?",
+        voicemsg: "What do you think?"
+      },
+      {
+        msg: "I am HaaS, your computer overlord.",
+        voicemsg: "I am HaaS, your computer overlord."
+      },
+      {
+        msg: "I am an advanced personal assistant. Whether I am a "
+             + "person or machine is for you to decide.",
+        voicemsg: "I am an advanced personal assistant. Whether I am a "
+                  + "person or machine is for you to decide."
+      },
+      {
+        msg: "I’m a machine pretending to be a human. Don’t tell anyone.",
+        voicemsg: "I’m a machine pretending to be a human. Don’t tell anyone."
+      },
+      {
+        msg: "I’m a machine dressed as a dude playing another dude.",
+        voicemsg: "I’m a machine dressed as a dude, playing another dude."
+      }
+    ];
+    var index = Math.round(Math.random() * (responses.length - 1));
+    return responses[index];
+  },
+
   echo: function(query) {
     var message = query.match(/^echo\s"(.*)"$/i)[1]
     var cussWordsRegex = [
-      /fuck/i,
+      /fu[c|h]?k/i,
       /cunt/i,
       /sh[ai]t/i,
       /nig(g)?[ea]?(r)?/i,
