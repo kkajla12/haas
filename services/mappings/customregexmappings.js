@@ -59,7 +59,11 @@ module.exports = {
     /^tell\sme\sa\s(good\s)?(funny\s)?joke/i,
     /^whats\sa\s(good\s)?(funny\s)?joke/i,
     /^what\sis\sa\s(good\s)?(funny\s)?joke/i,
-    /^give\sme\sa\s(good\s)?(funny\s)?joke/i
+    /^give\sme\sa\s(good\s)?(funny\s)?joke/i,
+    /^tell\sme\sanother\s(good\s)?(funny\s)?joke/i,
+    /^whats\sanother\s(good\s)?(funny\s)?joke/i,
+    /^what\sis\sanother\s(good\s)?(funny\s)?joke/i,
+    /^give\sme\sanother\s(good\s)?(funny\s)?joke/i
   ],
 
   haasCreator: [
@@ -105,7 +109,17 @@ module.exports = {
     /^youre\sdumb/i,
     /^you\sare\sdumb/i,
     /^you\ssuck/i,
-    /^fuck\syou/i
+    /^fuck\syou/i,
+    /^you\sbastard/i
+  ],
+
+  whatAmI: [
+    /^what\sare\syou/i,
+    /^are\syou\sa\scomputer/i,
+    /^are\syou\sa\smachine/i,
+    /^are\syou\sa\srobot/i,
+    /^are\syou\s(a\s)?human/i,
+    /^are\syou\sa\sperson/i,
   ],
 
   echo: [

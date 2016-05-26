@@ -4,10 +4,12 @@
 var ExpediaService = require('../expediaservice');
 var AmazonService = require('../amazonservice');
 var Food2ForkService = require('../food2forkservice');
+var ConnexityService = require('../connexityservice');
 
 var expediaService = new ExpediaService();
 var amazonService = new AmazonService();
 var food2forkService = new Food2ForkService();
+var connexityService = new ConnexityService();
 
 function createAnchor(href, text) {
     var anchor = '';
@@ -21,14 +23,30 @@ function createAnchor(href, text) {
 
 module.exports = {
   retailStoreSearch: function(result, callback) {
-    amazonService.search(result.item, function(err, res) {
-      var response = {
-        msg: result.item + " is available at Amazon for " + res,
-        voicemsg: ''
-      };
-      response.voicemsg = response.msg;
-      callback(JSON.stringify(response));
-    })
+    connexityService.retailQuery(result.item, function(error, connexityProducts) {
+      amazonService.search(result.item, function(err, res) {
+        var response = {};
+        if (err) {
+          response.msg = "I'm sorry, I wasn't able to find any results for"
+                        + " that item.";
+          response.voicemsg = response.msg;
+        }
+        var amazonString = "Amazon - " + res.title + " (" + res.price + ")";
+        response.msg = "The item you requested is available at:<br>" +
+                       createAnchor(res.url, amazonString);
+        response.voicemsg = 'The item you requested is available at Amazon';
+        for(var i in connexityProducts) {
+          var prod = connexityProducts[i];
+          var listString = prod.merchantName + " - " + prod.title
+                           + " (" + prod.price + ")";
+          response.msg += "<br>" + createAnchor(prod.url, listString);
+          response.voicemsg +=
+            ((i == connexityProducts.length - 1) ? ", and " : ", ");
+          response.voicemsg += prod.merchantName;
+        }
+        callback(JSON.stringify(response));
+      });
+    });
   },
 
   retailComparisonSearch: function(result, callback) {
