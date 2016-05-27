@@ -36,6 +36,13 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
 
     $scope.messages = [];
 
+    // used to properly display typing indicator
+    var nExpectedResponses = 0;
+
+    var typingIndicator = '<div class="typing-indicator">' +
+                          '<span></span><span></span><span></span>' +
+                          '</div>';
+
     // TODO: secure
     $scope.encodeAnchors = function (message) {
         return $sce.trustAsHtml(message);
@@ -80,12 +87,23 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                 channel.on('messageAdded', function(message) {
                   msg.text = message.body;
 
-                  if (msg.text !== savedRequest) {
+                  if (message.author === "system") {
+                    nExpectedResponses--;
                     var response = JSON.parse(msg.text);
 
+                    // pop typing indicator
                     $scope.messages.pop();
+
                     $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
                     //DataService.saveMessages($scope.messages);
+
+                    if (nExpectedResponses > 0) {
+                      // push typing indicator since we're still waiting for messages
+                      $scope.messages.push({
+                        'message': typingIndicator,
+                        'class': 'message-bot message-typing-indicator'
+                      });
+                    }
 
                     msg.text = response.voicemsg;
 
@@ -113,8 +131,16 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
 
     $scope.sendRequest = function () {
         if ($scope.request !== "" && $scope.twilioInitialized === true) {
+            if (nExpectedResponses > 0) {
+                // pop typing indicator
+                $scope.messages.pop();
+            }
             $scope.messages.push({'message': $scope.request, 'class': 'message-user'});
-            $scope.messages.push({'message': "...", 'class': 'message-bot'});
+            nExpectedResponses++;
+            $scope.messages.push({
+                'message': typingIndicator,
+                'class': 'message-bot message-typing-indicator'
+            });
             savedRequest = $scope.request;
             $scope.request = "";
 
