@@ -182,3 +182,85 @@ main {
     margin-top: 30px;
     background-color: rgba(255, 255, 255, 0.25);
 }
+
+.message-typing-indicator {
+    box-shadow: initial;
+    padding: initial;
+    border-radius: initial;
+    background-color: initial;
+    margin-left: 10px;
+}
+
+.typing-indicator {
+  box-shadow: 0 2px 2px 0     rgba(0,0,0,.14),
+              0 3px 1px -2px  rgba(0,0,0,.2),
+              0 1px 5px 0     rgba(0,0,0,.12);
+  background-color: #BDC9A5;
+  width: auto;
+  border-radius: 7px;
+  padding: 10px;
+  display: table;
+  margin: 0 auto;
+  position: relative;
+  -webkit-animation: 2s bulge infinite ease-out;
+          animation: 2s bulge infinite ease-out;
+}
+.typing-indicator:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: #BDC9A5;
+  box-shadow: 0 2px 2px 0     rgba(0,0,0,.14),
+              0 3px 1px -2px  rgba(0,0,0,.2),
+              0 1px 5px 0     rgba(0,0,0,.12);
+}
+.typing-indicator span {
+  height: 7px;
+  width: 7px;
+  float: left;
+  margin: 0 1px;
+  background-color: #666666;
+  display: block;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+.typing-indicator span:nth-of-type(1) {
+  -webkit-animation: 1s blink infinite 0.3333s;
+          animation: 1s blink infinite 0.3333s;
+}
+.typing-indicator span:nth-of-type(2) {
+  -webkit-animation: 1s blink infinite 0.6666s;
+          animation: 1s blink infinite 0.6666s;
+}
+.typing-indicator span:nth-of-type(3) {
+  -webkit-animation: 1s blink infinite 0.9999s;
+          animation: 1s blink infinite 0.9999s;
+}
+
+@-webkit-keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes bulge {
+  50% {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+}
+@keyframes bulge {
+  50% {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+}
