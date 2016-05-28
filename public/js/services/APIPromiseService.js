@@ -24,7 +24,7 @@ app.factory('APIPromiseService', [ '$http', function($http) {
 
     function requestTwilioTokenPromise(token) {
         var req = {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 Authorization: 'Bearer ' + token
             },

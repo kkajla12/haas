@@ -2,6 +2,16 @@ h1, h2, h4 {
     text-align: center;
 }
 
+a {
+    text-decoration: none;
+}
+
+.message-link hr {
+    border-color: #7f8c8d;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 main {
     background: url('../img/material-mountains.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -105,6 +115,30 @@ main {
     background-color: #bdc9a5;
     color: black;
     margin: 0 auto 10px 0;
+}
+
+.message-link:hover {
+    color: #1C5D65;
+}
+
+.message-link-text {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 0px;
+}
+
+.message-link-major {
+    font-size: 16px;
+    margin-bottom: 0px;
+}
+
+.message-link-minor {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: right;
+    font-weight: bold;
 }
 
 .card.mdl-card {

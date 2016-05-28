@@ -36,9 +36,34 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
 
     $scope.messages = [];
 
+    function createAnchor(href, text) {
+      var anchor = '';
+      anchor += '<a href="';
+      anchor += href;
+      anchor += '" style=\'color:black\' target=\'_blank\'>';
+      anchor += text;
+      anchor += "</a>";
+      return anchor;
+    }
+
+    function encodeLink(link) {
+      var text = '<div class="message-link">';
+      text += '<p class="message-link-text">'
+              + link.text + '</p>';
+      if (link.majorInfo.length > 0) {
+          text += '<hr><p class="message-link-major">' + link.majorInfo
+                  + '</p>';
+      }
+      if (link.minorInfo.length > 0) {
+          text += '<p class="message-link-minor">' + link.minorInfo + '</p>';
+      }
+      text += '</div>';
+      return createAnchor(link.url, text);
+    };
+
     // TODO: secure
     $scope.encodeAnchors = function (message) {
-        return $sce.trustAsHtml(message);
+      return $sce.trustAsHtml(message);
     };
 
     $scope.init = function() {
@@ -57,16 +82,29 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
             tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
             tc.messagingClient.getChannelBySid(channelId).then(function(channel) {
                 channel.join().then(function(joinedChannel) {
-                    twilioChannel = joinedChannel
+                    twilioChannel = joinedChannel;
                     if(!$scope.messagesInitialized) {
                       twilioChannel.getMessages().then(function(messages) {
-                        for(var i = 0; i < messages.length; i++) {
-                            if(messages[i].author == "system") {
+                        for(var i in messages) {
+                            if(messages[i].author === "system") {
                                 var response = JSON.parse(messages[i].body);
-                                $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
+                                $scope.messages.push({
+                                  'message': response.msg,
+                                  'class': 'message-bot'
+                                });
+
+                                for(var j in response.links) {
+                                  $scope.messages.push({
+                                    'message': encodeLink(response.links[j]),
+                                    'class': 'message-bot'
+                                  });
+                                }
                             }
                             else {
-                                $scope.messages.push({'message': messages[i].body, 'class': 'message-user'});
+                                $scope.messages.push({
+                                  'message': messages[i].body,
+                                  'class': 'message-user'
+                                });
                             }
                         }
                         $scope.messagesInitialized = true;
@@ -85,6 +123,12 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
 
                     $scope.messages.pop();
                     $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
+                    for(var i in response.links) {
+                      $scope.messages.push({
+                        'message': encodeLink(response.links[i]),
+                        'class': 'message-bot'
+                      });
+                    }
                     //DataService.saveMessages($scope.messages);
 
                     msg.text = response.voicemsg;
