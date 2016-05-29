@@ -264,3 +264,60 @@ main {
             transform: scale(1.1);
   }
 }
+
+/* voice recognition listening pulse */
+/*
+  the original code for the following style rules can be found here:
+  https://codepen.io/alanshortis/pen/eJLVXr
+*/
+@-webkit-keyframes pulse {
+  50% {
+    background: #19967B;
+  }
+}
+@keyframes pulse {
+  50% {
+    background: #19967B;
+  }
+}
+.listening-indicator {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+}
+.listening-indicator p {
+    position: relative;
+    transform: translateX(-30%);
+}
+.loading-pulse {
+    position: relative;
+    width: 12px;
+    height: 48px;
+    background: rgba(25, 150, 123, 0.9);
+    -webkit-animation: pulse 950ms infinite;
+            animation: pulse 950ms infinite;
+    -webkit-animation-delay: 316.66667ms;
+            animation-delay: 316.66667ms;
+}
+.loading-pulse:before, .loading-pulse:after {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 32px;
+    width: 12px;
+    background: rgba(25, 150, 123, 0.4);
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    -webkit-animation: pulse 950ms infinite;
+            animation: pulse 950ms infinite;
+}
+.loading-pulse:before {
+    left: -24px;
+}
+.loading-pulse:after {
+    left: 24px;
+    -webkit-animation-delay: 633.33333ms;
+            animation-delay: 633.33333ms;
+}

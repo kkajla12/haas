@@ -3,6 +3,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     var savedRequest = "";
     $scope.twilioInitialized = false;
     $scope.messagesInitialized = false;
+    $scope.listening = false;
 
     var userEnv;
 
@@ -165,8 +166,21 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     recognition.maxAlternatives = 1;
 
     recognition.onresult = function(event) {
+      $scope.listening = false;
       $scope.request = event.results[0][0].transcript;
       $scope.sendRequest();
+    }
+
+    recognition.onend = function(event) {
+      $scope.$apply(function() {
+        $scope.listening = false;
+      });
+    }
+
+    recognition.onstart = function(event) {
+      $scope.$apply(function() {
+        $scope.listening = true;
+      });
     }
 
     $scope.recognizeVoice = function () {
