@@ -26,7 +26,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
         msg.voiceURI = 'native';
         msg.volume = 1; // 0 to 1
         msg.rate = 0.9; // 0.1 to 10
-        msg.pitch = 1.7; //0 to 2
+        msg.pitch = 1.0; //0 to 2
         msg.lang = 'en-US';
     };
 

@@ -14,8 +14,9 @@
 		</div>
 	    <form id="form-query">
 	        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="textfield-query">
-		            <input class="mdl-textfield__input" type="text" id="_request" ng-model="request" autocomplete="off">
-		            <label class="mdl-textfield__label" for="_request">Talk to HaaS...</label>
+		            <input class="mdl-textfield__input" type="text" id="textfield-input" ng-model="request" autocomplete="off">
+		            <label class="mdl-textfield__label" id="textfield-label" for="textfield-input">Talk to HaaS...</label>
+		            <div id="form-blur"></div>
 	        </div>
 	        <div class="container-button">
 	            <button class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="sendRequest()" ng-if="twilioInitialized">Send</button>

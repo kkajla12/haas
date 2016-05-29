@@ -92,15 +92,6 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
             }, function(error) {
                 failCallback(error)
             })
-        },
-
-        askBot: function(query, successCallback, failCallback) {
-            APIPromiseService.askBot(query)
-            .then(function(res) {
-
-            }, function(error) {
-
-            })
         }
     }
 }]);

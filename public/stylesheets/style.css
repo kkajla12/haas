@@ -26,7 +26,7 @@ main {
 }
 
 #form-query {
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
 }
 
@@ -35,10 +35,24 @@ main {
 }
 
 #textfield-query {
+    background: rgba(236,240,241,0.2);
+    border: 1px solid rgb(236,240,241);
+    border-top: none;
     width: 100%;
 }
 
+#textfield-input {
+    width: 90%;
+    margin: auto;
+}
+
+#textfield-label {
+    width: 90%;
+    left: 50px;
+}
+
 .container-button {
+    padding-top: 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -51,8 +65,8 @@ main {
 }
 
 .container-haas {
-    /* 100vh - height of header - padding for message container */
-    height: calc(100vh - 64px - 60px);
+    /* 100vh - height of header - padding for message container - padding for buttons*/
+    height: calc(100vh - 64px - 60px - 5px);
     width: 100vw;
     margin: 0;
     padding: 30px 0;
@@ -80,6 +94,24 @@ main {
     left: 0;
     position: absolute;
     right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+#form-blur {
+    background: url('../img/material-mountains.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    position: absolute;
+    height: 100%;
+    width: 100%;
     top: 0;
     z-index: -1;
 }
@@ -180,6 +212,7 @@ main {
     width: 20vw;
     min-width: 280px;
     margin-top: 30px;
+    margin-bottom: 30px;
     background-color: rgba(255, 255, 255, 0.25);
 }
 
