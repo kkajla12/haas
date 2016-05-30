@@ -9,14 +9,14 @@ module.exports = {
   retailStoreSearch: function(data) {
     return {
       intent: 'retailStoreSearch',
-      item: data.outcomes[0].entities.item[0].value
+      item: data.outcomes[0].entities.search_query[0].value
     };
   },
 
   retailComparisonSearch: function(data) {
     return {
       intent: 'retailComparisonSearch',
-      item: data.outcomes[0].entities.item[0].value
+      item: data.outcomes[0].entities.search_query[0].value
     };
   },
 
@@ -38,14 +38,14 @@ module.exports = {
   recipeSearch: function(data) {
     return {
       intent: 'recipeSearch',
-      item: data.outcomes[0].entities.item[0].value
+      item: data.outcomes[0].entities.search_query[0].value
     };
   },
 
   recipeIngredientSearch: function(data) {
     return {
       intent: 'recipeIngredientSearch',
-      items: data.outcomes[0].entities.item.map(i => i.value)
+      items: data.outcomes[0].entities.search_query.map(i => i.value)
     };
   }
 
