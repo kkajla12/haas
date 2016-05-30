@@ -25,26 +25,30 @@ module.exports = {
           return callback(JSON.stringify(reponse));
         }
 
-        var amazonString = "Amazon - " + res.title + " (" + res.price + ")";
         response.msg = "The item you requested is available at:";
-        response.voicemsg = 'The item you requested is available at Amazon';
-        links.push({
-          text: "Amazon",
-          url: res.url,
-          majorInfo: res.title,
-          minorInfo: res.price
-        });
-        for(var i in connexityProducts) {
-          var prod = connexityProducts[i];
+        if(!amazonErr) {
+          var amazonString = "Amazon - " + res.title + " (" + res.price + ")";
+          response.voicemsg = 'The item you requested is available at Amazon';
           links.push({
-            text: prod.merchantName,
-            url: prod.url,
-            majorInfo: prod.title,
-            minorInfo: prod.price
+            text: "Amazon",
+            url: res.url,
+            majorInfo: res.title,
+            minorInfo: res.price
           });
-          response.voicemsg +=
-            ((i == connexityProducts.length - 1) ? ", and " : ", ");
-          response.voicemsg += prod.merchantName;
+        }
+        if(!connexityErr) {
+          for(var i in connexityProducts) {
+            var prod = connexityProducts[i];
+            links.push({
+              text: prod.merchantName,
+              url: prod.url,
+              majorInfo: prod.title,
+              minorInfo: prod.price
+            });
+            response.voicemsg +=
+              ((i == connexityProducts.length - 1) ? ", and " : ", ");
+            response.voicemsg += prod.merchantName;
+          }
         }
         response.links = links;
         callback(JSON.stringify(response));

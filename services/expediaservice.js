@@ -156,7 +156,7 @@ var ExpediaFactory = function(){
     flightQuery: function(request, callback) {
       var date = request.datetime.substring(0, request.datetime.indexOf('T'));
       getFlights(request.location_from, request.location_to, request.datetime, function(err, res) {
-        if (Object.keys(res).length > 0) {
+        if (res !== undefined && Object.keys(res).length > 0) {
           callback(null, formatFlightData(res));
         } else {
           callback(true);
