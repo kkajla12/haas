@@ -29,11 +29,12 @@
             <span class="mdl-layout-title" id="logo" ng-click="home()">HaaS</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation">
-              <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/login">Login</a>
-              <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/register">Register</a>
               <a ng-if="loggedIn()" class="mdl-navigation__link" href="#/haas">HaaS</a>
               <a ng-if="loggedIn()" class="mdl-navigation__link" href="#/settings">Settings</a>
+              <a class="mdl-navigation__link" href="#/faq">FAQ</a>
               <a ng-if="loggedIn()" ng-click="logout()" class="mdl-navigation__link" href="#/">Logout</a>
+              <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/register">Register</a>
+              <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/login">Login</a>
             </nav>
           </div>
         </div>
