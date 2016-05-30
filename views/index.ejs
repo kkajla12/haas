@@ -24,16 +24,18 @@
 
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title" id="logo" ng-click="home()">HaaS</span>
-          <div class="mdl-layout-spacer"></div>
-          <nav class="mdl-navigation">
-            <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/login">Login</a>
-            <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/register">Register</a>
-            <a ng-if="loggedIn()" class="mdl-navigation__link" href="#/haas">HaaS</a>
-            <a ng-if="loggedIn()" class="mdl-navigation__link" href="#/settings">Settings</a>
-            <a ng-if="loggedIn()" ng-click="logout()" class="mdl-navigation__link" href="#/">Logout</a>
-          </nav>
+        <div id="header-wrapper">
+          <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title" id="logo" ng-click="home()">HaaS</span>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation">
+              <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/login">Login</a>
+              <a ng-if="!loggedIn()" class="mdl-navigation__link" href="#/register">Register</a>
+              <a ng-if="loggedIn()" class="mdl-navigation__link" href="#/haas">HaaS</a>
+              <a ng-if="loggedIn()" class="mdl-navigation__link" href="#/settings">Settings</a>
+              <a ng-if="loggedIn()" ng-click="logout()" class="mdl-navigation__link" href="#/">Logout</a>
+            </nav>
+          </div>
         </div>
       </header>
       <main class="mdl-layout__content">
