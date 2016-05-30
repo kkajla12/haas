@@ -81,6 +81,10 @@ main {
     width: 120px;
 }
 
+#button-form-send {
+    background: #19967b;
+}
+
 .container-haas {
     /* 100vh - height of header - padding for message container - padding for buttons*/
     height: calc(100vh - 64px - 60px - 5px);
