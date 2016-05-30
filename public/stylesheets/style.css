@@ -6,6 +6,17 @@ a {
     text-decoration: none;
 }
 
+@font-face {
+    font-family: Silent Reaction;
+    src: url(../fonts/SilentReaction.ttf);
+}
+
+#logo {
+  cursor: pointer;
+  font-family: Silent Reaction;
+  font-size: 34px;
+}
+
 .message-link hr {
     border-color: #7f8c8d;
     margin-top: 5px;
