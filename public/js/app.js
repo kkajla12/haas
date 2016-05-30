@@ -21,6 +21,9 @@ app.config(function ($routeProvider) {
         controller: 'LoginController',
         templateUrl: '/partials/login.html'
     });
+    $routeProvider.when('/faq', {
+        templateUrl: '/partials/faq.html'
+    });
     $routeProvider.when('/haas', {
         controller: 'HaasController',
         templateUrl: '/partials/haas.html'

@@ -95,6 +95,21 @@ main {
     position: relative;
 }
 
+#container-faq {
+    height: calc(100vh - 64px - 60px);
+    margin: 30px auto;
+    max-width: 1000px;
+    position: relative;
+}
+
+#container-faq-content {
+    background: rgba(236,240,241,0.2);
+    border: 1px solid rgb(236,240,241);
+    height: calc(100% - 30px);
+    overflow-y: scroll;
+    padding: 0 30px 30px 30px;
+}
+
 #messages-blur {
     background: url('../img/material-mountains.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
