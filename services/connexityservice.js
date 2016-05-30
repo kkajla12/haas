@@ -35,13 +35,17 @@ var ConnexityFactory = function(){
             merchantName: product.merchantName
           });
         } else {
-          console.log(product.priceSet.minPrice);
-          products.push({
-            title: product.title,
-            price: product.priceSet.minPrice.value,
-            url: product.url.value,
-            merchantName: product.brand.name
-          });
+          try {
+            products.push({
+              title: product.title,
+              price: product.priceSet.minPrice.value,
+              url: product.url.value,
+              merchantName: product.brand.name
+            });
+          } catch (e) {
+            console.log("unable to add product to result list due to poorly"
+              + "formatted response object");
+          }
         }
         merchantNames.push(product.merchantName);
         count++;
