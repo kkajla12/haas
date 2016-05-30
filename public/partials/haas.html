@@ -18,9 +18,9 @@
 		            <label class="mdl-textfield__label" id="textfield-label" for="textfield-input">Talk to HaaS...</label>
 		            <div id="form-blur"></div>
 	        </div>
-	        <div class="container-button">
+	        <div class="container-button container-button-reverse">
+	            <button type="submit" class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="button-form-send" ng-click="sendRequest()" ng-if="twilioInitialized">Send</button>
                 <button class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="recognizeVoice()" ng-if="twilioInitialized">Voice</button>
-	            <button class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="button-form-send" ng-click="sendRequest()" ng-if="twilioInitialized">Send</button>
 	        </div>
 	    </form>
 	</div>

@@ -77,6 +77,10 @@ main {
     width: 300px;
 }
 
+.container-button-reverse {
+    flex-direction: row-reverse;
+}
+
 .button-form {
     width: 120px;
 }
