@@ -11,6 +11,10 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     var channelId = "";
     var tc = {};
 
+    $scope.messages = [];
+    //var prevMessages = [];
+    //var prevPosition;
+
     var msg = new SpeechSynthesisUtterance();
     window.speechSynthesis.onvoiceschanged = function() {
         var voices = window.speechSynthesis.getVoices();
@@ -34,8 +38,6 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
 
     var messageWindow = document.getElementById("messages");
     var queryForm = document.getElementById("form-query");
-
-    $scope.messages = [];
 
     function createAnchor(href, text) {
       var anchor = '';
@@ -115,6 +117,8 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
                                 });
                             }
                         }
+                        //prevPosition = prevMessages.length - 1;
+                        //addMessages();
                         $scope.messagesInitialized = true;
                         //DataService.saveMessages($scope.messages);
                         $scope.$apply();
@@ -160,6 +164,29 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
         }
     }
 
+///Batching old messages code. 
+
+/*    $("#messages").scroll(function() {
+        var messageWindow = $("#messages");
+        if(messageWindow[0].scrollTop == 0) {
+            addMessages();
+        }
+    })
+
+    addMessages = function() {
+        for(var i = prevPosition; i > prevPosition - 20; i--) {
+            if(i == -1) {
+                prevPosition = -1;
+                $scope.$apply();
+                return;
+            }
+            $scope.messages.unshift(prevMessages[i]);
+        }
+        $scope.$apply();
+        setTimeout(function() {$("#messages")[0].scrollTop += 43.45 * 20; console.log("hello")},0);
+        prevPosition -= 20;
+    }
+*/
     var recognition = new webkitSpeechRecognition();
     recognition.lang = 'en-US';
     recognition.interimResults = false;

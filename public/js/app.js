@@ -6,7 +6,7 @@ app.directive('scroll', function($timeout) {
     link: function(scope, element, attr) {
       scope.$watchCollection(attr.scroll, function(newVal) {
         $timeout(function() {
-         element[0].scrollTop = element[0].scrollHeight;
+            element[0].scrollTop = element[0].scrollHeight;
         });
       });
     }
