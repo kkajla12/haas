@@ -11,4 +11,8 @@ app.controller('HomeController', ['$scope', '$location', 'DataService', function
         DataService.logout();
         $location.path('/')
     }
+
+    $scope.register = function() {
+        $location.path('/register');
+    };
 }]);

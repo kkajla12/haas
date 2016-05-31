@@ -93,6 +93,19 @@ main {
     background: #19967b;
 }
 
+.container-home {
+    margin: 64px auto 0 auto;
+    max-width: 1000px;
+    position: relative;
+    text-align: center;
+}
+
+.container-home-content {
+    background: rgba(236,240,241,0.2);
+    border: 1px solid rgb(236,240,241);
+    padding: 0 30px 30px 30px;
+}
+
 .container-haas {
     /* 100vh - height of header - padding for message container - padding for buttons*/
     height: calc(100vh - 64px - 60px - 15px);
@@ -142,7 +155,7 @@ main {
     z-index: -1;
 }
 
-#form-blur {
+#form-blur, .container-blur {
     background: url('../img/material-mountains.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
