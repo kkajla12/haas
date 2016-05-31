@@ -415,3 +415,9 @@ main {
     -webkit-animation-delay: 633.33333ms;
             animation-delay: 633.33333ms;
 }
+
+@media (max-width: 1024px) {
+  #header-wrapper {
+    margin: inherit;
+  }
+}
