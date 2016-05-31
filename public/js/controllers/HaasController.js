@@ -8,6 +8,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     var userEnv;
 
     var twilioToken = "";
+    var twilioChannel;
     var channelId = "";
     var tc = {};
 
@@ -33,8 +34,6 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
         msg.pitch = 1.0; //0 to 2
         msg.lang = 'en-US';
     };
-
-    var twilioChannel;
 
     var messageWindow = document.getElementById("messages");
     var queryForm = document.getElementById("form-query");
@@ -76,92 +75,113 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
       return $sce.trustAsHtml(message);
     };
 
-    $scope.init = function() {
-       if(!DataService.loggedIn()) {
-            $location.path('/');
-        }
-        else {
-            userEnv = DataService.getUserEnv();
+    function initTwilio (tc) {
+      tc.messagingClient.getChannelBySid(channelId).then(function(channel) {
+        channel.join().then(function(joinedChannel) {
+          twilioChannel = joinedChannel;
+          if(!$scope.messagesInitialized) {
+            twilioChannel.getMessages().then(function(messages) {
+              for(var i in messages) {
+                if(messages[i].author === "system") {
+                  var response = JSON.parse(messages[i].body);
+                  $scope.messages.push({
+                    'message': response.msg,
+                    'class': 'message-bot'
+                  });
+
+                  for(var j in response.links) {
+                    $scope.messages.push({
+                      'message': encodeLink(response.links[j]),
+                      'class': 'message-bot'
+                    });
+                  }
+                }
+                else {
+                  $scope.messages.push({
+                    'message': messages[i].body,
+                    'class': 'message-user'
+                  });
+                }
+              }
+              $scope.messagesInitialized = true;
+              //DataService.saveMessages($scope.messages);
+              $scope.$apply();
+            });
+          }
+          $scope.twilioInitialized = true;
+          $scope.$apply();
+        });
+        channel.on('messageAdded', function(message) {
+          msg.text = message.body;
+
+          if (message.author === "system") {
+            nExpectedResponses--;
+            var response = JSON.parse(msg.text);
+
+            // pop typing indicator
+            $scope.messages.pop();
+
+            $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
+            for(var i in response.links) {
+              $scope.messages.push({
+                'message': encodeLink(response.links[i]),
+                'class': 'message-bot'
+              });
+            }
+            //DataService.saveMessages($scope.messages);
+
+            if (nExpectedResponses > 0) {
+              // push typing indicator since we're still waiting for messages
+              $scope.messages.push({
+                'message': typingIndicator,
+                'class': 'message-bot message-typing-indicator'
+              });
+            }
+
+            msg.text = response.voicemsg;
+
+            window.speechSynthesis.speak(msg);
+            }
+          $scope.$apply();
+          });
+        });
+        tc.messagingClient.on('tokenExpired', function() {
+          DataService.requestTwilioToken(function (res) {
+            DataService.saveTwilioToken(res.data.token);
             twilioToken = DataService.getTwilioToken();
-            channelId = DataService.getChannelId();
-            /*$scope.messages = DataService.getMessages();
-            if($scope.messages.length != 0) {
-                $scope.messagesInitialized = true;
-            }*/
             tc.accessManager = new Twilio.AccessManager(twilioToken);
             tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
-            tc.messagingClient.getChannelBySid(channelId).then(function(channel) {
-                channel.join().then(function(joinedChannel) {
-                    twilioChannel = joinedChannel;
-                    if(!$scope.messagesInitialized) {
-                      twilioChannel.getMessages().then(function(messages) {
-                        for(var i in messages) {
-                            if(messages[i].author === "system") {
-                                var response = JSON.parse(messages[i].body);
-                                $scope.messages.push({
-                                  'message': response.msg,
-                                  'class': 'message-bot'
-                                });
+            initTwilio(tc);
+        });
+      });
+    }
 
-                                for(var j in response.links) {
-                                  $scope.messages.push({
-                                    'message': encodeLink(response.links[j]),
-                                    'class': 'message-bot'
-                                  });
-                                }
-                            }
-                            else {
-                                $scope.messages.push({
-                                  'message': messages[i].body,
-                                  'class': 'message-user'
-                                });
-                            }
-                        }
-                        //prevPosition = prevMessages.length - 1;
-                        //addMessages();
-                        $scope.messagesInitialized = true;
-                        //DataService.saveMessages($scope.messages);
-                        $scope.$apply();
-                      });
-                    }
-                  $scope.twilioInitialized = true;
-                  $scope.$apply();
-                });
-                channel.on('messageAdded', function(message) {
-                  msg.text = message.body;
-
-                  if (message.author === "system") {
-                    nExpectedResponses--;
-                    var response = JSON.parse(msg.text);
-
-                    // pop typing indicator
-                    $scope.messages.pop();
-
-                    $scope.messages.push({'message': response.msg, 'class': 'message-bot'});
-                    for(var i in response.links) {
-                      $scope.messages.push({
-                        'message': encodeLink(response.links[i]),
-                        'class': 'message-bot'
-                      });
-                    }
-                    //DataService.saveMessages($scope.messages);
-
-                    if (nExpectedResponses > 0) {
-                      // push typing indicator since we're still waiting for messages
-                      $scope.messages.push({
-                        'message': typingIndicator,
-                        'class': 'message-bot message-typing-indicator'
-                      });
-                    }
-
-                    msg.text = response.voicemsg;
-
-                    window.speechSynthesis.speak(msg);
-                  }
-                  $scope.$apply();
-                });
-            });
+    $scope.init = function() {
+     if(!DataService.loggedIn()) {
+          $location.path('/');
+      }
+      else {
+        userEnv = DataService.getUserEnv();
+        twilioToken = DataService.getTwilioToken();
+        channelId = DataService.getChannelId();
+        /*$scope.messages = DataService.getMessages();
+        if($scope.messages.length != 0) {
+            $scope.messagesInitialized = true;
+        }*/
+        try { // in case twilioToken is already expired
+          tc.accessManager = new Twilio.AccessManager(twilioToken);
+          tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
+          initTwilio(tc);
+        } catch (err) {
+          DataService.requestTwilioToken(function (res) {
+            DataService.saveTwilioToken(res.data.token);
+            twilioToken = DataService.getTwilioToken();
+            tc.accessManager = new Twilio.AccessManager(twilioToken);
+            tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
+            initTwilio(tc);
+          });
         }
+      }
     }
 
 ///Batching old messages code. 
