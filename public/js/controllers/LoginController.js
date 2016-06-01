@@ -21,10 +21,10 @@ app.controller('LoginController', ['$scope', '$location', 'DataService', functio
                 DataService.saveTwilioToken(res.data.token)
                 $location.path("/haas");
             }, function (error) {
-                console.log("ERROR TODO")
+                console.log(error)
             });
         }, function(error) {
-            console.log("ERROR TODO")
+            console.log(error)
         });
     }
 

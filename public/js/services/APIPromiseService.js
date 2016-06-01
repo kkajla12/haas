@@ -33,6 +33,18 @@ app.factory('APIPromiseService', [ '$http', function($http) {
         return $http(req);
     }
 
+    function updateUserEnvPromise (token, data) {
+        var req = {
+            method: 'PUT',
+            headers: {
+                Authorization: 'Bearer ' + token
+            },
+            data: data,
+            url: 'user'
+        };
+        return $http(req);
+    }
+
     return {
         register: function(data) {
             return requestPromise("register", "POST", data);
@@ -44,8 +56,10 @@ app.factory('APIPromiseService', [ '$http', function($http) {
             return requestUserPromise(token)
         },
         requestTwilioToken: function(token) {
-            return requestTwilioTokenPromise(token)
+            return requestTwilioTokenPromise(token);
+        },
+        updateUserEnv: function (token, data) {
+            return updateUserEnvPromise(token, data);
         }
-
     }
 }]);

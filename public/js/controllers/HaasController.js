@@ -5,7 +5,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     $scope.messagesInitialized = false;
     $scope.listening = false;
 
-    var userEnv;
+    var userEnv = DataService.getUserEnv();
 
     var twilioToken = "";
     var twilioChannel;
@@ -141,17 +141,17 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
             msg.text = response.voicemsg;
 
             window.speechSynthesis.speak(msg);
-            }
+          }
           $scope.$apply();
-          });
         });
-        tc.messagingClient.on('tokenExpired', function() {
-          DataService.requestTwilioToken(function (res) {
-            DataService.saveTwilioToken(res.data.token);
-            twilioToken = DataService.getTwilioToken();
-            tc.accessManager = new Twilio.AccessManager(twilioToken);
-            tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
-            initTwilio(tc);
+      });
+      tc.messagingClient.on('tokenExpired', function() {
+        DataService.requestTwilioToken(function (res) {
+          DataService.saveTwilioToken(res.data.token);
+          twilioToken = DataService.getTwilioToken();
+          tc.accessManager = new Twilio.AccessManager(twilioToken);
+          tc.messagingClient = new Twilio.IPMessaging.Client(tc.accessManager);
+          initTwilio(tc);
         });
       });
     }
@@ -184,7 +184,7 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
       }
     }
 
-///Batching old messages code. 
+///Batching old messages code.
 
 /*    $("#messages").scroll(function() {
         var messageWindow = $("#messages");

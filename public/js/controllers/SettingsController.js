@@ -31,18 +31,32 @@ app.controller('SettingsController', ['$scope', '$location', 'DataService', func
     };
 
     $scope.saveSettings = function () {
-        if ($scope.googleVoicePreference.id !== $scope.settings.googleVoicePreference
-            || $scope.expedia !== $scope.settings.travelSearchPreference.expedia
+        var updatedUserEnv = {};
+        var userEnvDidUpdate = false;
+
+        if ($scope.googleVoicePreference.id !== $scope.settings.googleVoicePreference) {
+            userEnvDidUpdate = true;
+            updatedUserEnv.googleVoicePreference = $scope.googleVoicePreference.id;
+        }
+
+        if ($scope.expedia !== $scope.settings.travelSearchPreference.expedia
             || $scope.kayak !== $scope.settings.travelSearchPreference.kayak)
         {
-            var settings = {
-                googleVoicePreference: $scope.googleVoicePreference.id,
-                travelSearchPreference: {
-                    expedia: $scope.expedia,
-                    kayak: $scope.kayak
-                }
+            userEnvDidUpdate = true;
+            updatedUserEnv.travelSearchPreference = {
+                expedia: $scope.expedia,
+                kayak: $scope.kayak
             };
-            // TODO: update
+        }
+
+        if (userEnvDidUpdate) {
+            updatedUserEnv.user = $scope.settings.user;
+            DataService.updateUserEnv(updatedUserEnv, function (res) {
+                DataService.saveUserEnv(res.data.userEnv);
+                $scope.init();
+            }, function (error) {
+                console.log(error);
+            });
         }
     };
 }]);

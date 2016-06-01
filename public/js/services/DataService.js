@@ -92,6 +92,15 @@ app.factory('DataService', ['APIPromiseService', '$window', function(APIPromiseS
             }, function(error) {
                 failCallback(error)
             })
+        },
+
+        updateUserEnv: function (data, successCallback, failCallback) {
+            APIPromiseService.updateUserEnv($window.localStorage['haas-token'], data)
+            .then(function (res) {
+                successCallback(res);
+            }, function (error) {
+                failCallback(error);
+            });
         }
     }
 }]);

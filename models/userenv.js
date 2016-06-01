@@ -20,7 +20,7 @@ var UserEnvSchema = new mongoose.Schema({
   },
   googleVoicePreference: {
     type: Number,
-    min: 1,
+    min: 0,
     max: 4,
     default: 1
   },
