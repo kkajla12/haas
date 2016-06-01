@@ -140,7 +140,9 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
 
             msg.text = response.voicemsg;
 
-            window.speechSynthesis.speak(msg);
+            if (userEnv.googleVoicePreference !== 0) {
+              window.speechSynthesis.speak(msg);
+            }
           }
           $scope.$apply();
         });
