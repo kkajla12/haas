@@ -395,16 +395,38 @@ main {
     background: #19967B;
   }
 }
-.listening-indicator {
+
+.container-listening-indicator {
+    background: rgba(236,240,241,0.75);
+    border: 1px solid rgb(236,240,241);
+    height: 103px;
+    left: 50%;
+    padding: 10px;
     position: absolute;
-    top: 50%; left: 50%;
+    top: 50%;
     transform: translate(-50%,-50%);
+    width: 136px;
     z-index: 1;
 }
-.listening-indicator p {
+
+.container-listening-indicator p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 30px 0 0 0;
     position: relative;
-    transform: translateX(-30%);
+    text-align: center;
 }
+
+.listening-indicator {
+    height: 48px;
+    margin-left: auto;
+    width: 74px; /* 68px (width of half of container)
+                    + 6px (width of half of middle bar)
+                    Centers the animation in the container AS IS
+                  */
+    z-index: 2;
+}
+
 .loading-pulse {
     position: relative;
     width: 12px;

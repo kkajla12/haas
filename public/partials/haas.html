@@ -5,9 +5,10 @@
                 <div ng-repeat="message in messages" ng-bind-html="encodeAnchors(message.message)" class="message {{message.class}}"></div>
                 <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate progress" ng-if="!messagesInitialized"></div>
             </div>
-            <div ng-show="listening" class="listening-indicator">
-                <div class="loading-pulse"></div>
-                <br>
+            <div ng-show="listening" class="container-listening-indicator">
+                <div class="listening-indicator">
+                    <div class="loading-pulse"></div>
+                </div>
                 <p>Listening...</p>
             </div>
             <div id="messages-blur"></div>
