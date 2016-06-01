@@ -1,27 +1,28 @@
 <div ng-init="init()">
-	<div class="container-haas">
-		<div class="container-messages">
-		    <div id="messages" scroll="messages">
-		        <div ng-repeat="message in messages" ng-bind-html="encodeAnchors(message.message)" class="message {{message.class}}"></div>
-		        <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate progress" ng-if="!messagesInitialized"></div>
-		    </div>
-				<div ng-show="listening" class="listening-indicator">
-						<div class="loading-pulse"></div>
-						<br>
-						<p>Listening...</p>
-				</div>
-		    <div id="messages-blur"></div>
-		</div>
-	    <form id="form-query">
-	        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="textfield-query">
-		            <input class="mdl-textfield__input" type="text" id="textfield-input" ng-model="request" autocomplete="off">
-		            <label class="mdl-textfield__label" id="textfield-label" for="textfield-input">Talk to HaaS...</label>
-		            <div class="form-blur"></div>
-	        </div>
-	        <div class="container-button container-button-reverse">
-	            <button type="submit" class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="button-form-send" ng-click="sendRequest()" ng-if="twilioInitialized">Send</button>
+    <div class="container-haas">
+        <div class="container-messages">
+            <div id="messages" scroll="messages">
+                <div ng-repeat="message in messages" ng-bind-html="encodeAnchors(message.message)" class="message {{message.class}}"></div>
+                <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate progress" ng-if="!messagesInitialized"></div>
+            </div>
+            <div ng-show="listening" class="container-listening-indicator">
+                <div class="listening-indicator">
+                    <div class="loading-pulse"></div>
+                </div>
+                <p>Listening...</p>
+            </div>
+            <div id="messages-blur"></div>
+        </div>
+        <form id="form-query">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="textfield-query">
+                <input class="mdl-textfield__input" type="text" id="textfield-input" ng-model="request" autocomplete="off">
+                <label class="mdl-textfield__label" id="textfield-label" for="textfield-input">Talk to HaaS...</label>
+                <div class="form-blur"></div>
+            </div>
+            <div class="container-button container-button-reverse">
+                <button type="submit" class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="button-form-send" ng-click="sendRequest()" ng-if="twilioInitialized">Send</button>
                 <button class="button-form mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="recognizeVoice()" ng-if="twilioInitialized">Voice</button>
-	        </div>
-	    </form>
-	</div>
+            </div>
+        </form>
+    </div>
 </div>
