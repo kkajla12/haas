@@ -17,22 +17,25 @@ app.controller('HaasController', ['$scope', '$sce', '$location', 'DataService', 
     //var prevPosition;
 
     var msg = new SpeechSynthesisUtterance();
+    msg.voiceURI = 'native';
+    msg.volume = 1; // 0 to 1
+    msg.rate = 0.9; // 0.1 to 10
+    msg.pitch = 1.0; //0 to 2
+    msg.lang = (userEnv.googleVoicePreference > 2) ? 'en-GB' : 'en-US';
+
     window.speechSynthesis.onvoiceschanged = function() {
         var voices = window.speechSynthesis.getVoices();
         msg.voice = voices[1]; // Note: some voices don't support altering params
 
+        // TODO: temporary
+        var supportedVoices = ["Mute", "Google US English", "Samantha", "Google UK English Male", "Google UK English Female"];
+
         for (var voice in voices) {
-            if (voices[voice].name === userEnv.googleVoicePreference.name) {
+            if (voices[voice].name === supportedVoices[userEnv.googleVoicePreference]) {
                 msg.voice = voices[voice];
                 break;
             }
         }
-
-        msg.voiceURI = 'native';
-        msg.volume = 1; // 0 to 1
-        msg.rate = 0.9; // 0.1 to 10
-        msg.pitch = 1.0; //0 to 2
-        msg.lang = 'en-US';
     };
 
     var messageWindow = document.getElementById("messages");
