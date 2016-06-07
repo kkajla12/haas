@@ -18,7 +18,7 @@ var mongoose = require('mongoose');
 require('./models/user');
 require('./models/userenv');
 require('./config/passport');  // after user model
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/haasdb');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/haasdb');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
