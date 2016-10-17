@@ -8,7 +8,7 @@ var passport = require('passport');
 var methodOverride = require('express-method-override');
 
 // https://github.com/motdotla/dotenv
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 var app = express();
 
