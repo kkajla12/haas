@@ -8,7 +8,7 @@ var passport = require('passport');
 var methodOverride = require('express-method-override');
 
 // https://github.com/motdotla/dotenv
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 var app = express();
 
@@ -18,7 +18,7 @@ var mongoose = require('mongoose');
 require('./models/user');
 require('./models/userenv');
 require('./config/passport');  // after user model
-mongoose.connect('mongodb://localhost/haasdb');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/haasdb');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
