@@ -1,4 +1,5 @@
-var Wolfram = require('wolfram').createClient(process.env.WOLFRAM_ALPHA_APP_ID);
+var WolframClient = require('node-wolfram');
+var Wolfram = new WolframClient(process.env.WOLFRAM_ALPHA_APP_ID);
 
 var WolframFactory = function(){
   return {
