@@ -1,0 +1,64 @@
+{
+  "env": {
+    "USER_SECRET": {
+      "required": true
+    },
+    "TWILIO_AUTH_TOKEN": {
+      "required": true
+    },
+    "TWILIO_IPM_SERVICE_SID": {
+      "required": true
+    },
+    "TWILIO_ACCOUNT_SID": {
+      "required": true
+    },
+    "TWILIO_API_KEY": {
+      "required": true
+    },
+    "TWILIO_API_SECRET": {
+      "required": true
+    },
+    "WOLFRAM_ALPHA_APP_ID": {
+      "required": true
+    },
+    "WIT_ACCESS_TOKEN": {
+      "required": true
+    },
+    "EXPEDIA_CONSUMER_KEY": {
+      "required": true
+    },
+    "FACEBOOK_APP_ID": {
+      "required": true
+    },
+    "FACEBOOK_APP_SECRET": {
+      "required": true
+    },
+    "FACEBOOK_PAGE_ACCESS_TOKEN": {
+      "required": true
+    },
+    "FACEBOOK_MESSENGER_VERIFY_TOKEN": {
+      "required": true
+    },
+    "AMAZON_AWS_ID": {
+      "required": true
+    },
+    "AMAZON_ASSOCIATE_ID": {
+      "required": true
+    },
+    "AMAZON_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "AMAZON_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "FOOD2FORK_API_KEY": {
+      "required": true
+    },
+    "CONNEXITY_PUBLISHER_ID": {
+      "required": true
+    },
+    "CONNEXITY_API_KEY": {
+      "required": true
+    }
+  }
+}
