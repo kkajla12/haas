@@ -22,7 +22,9 @@ var Food2ForkFactory = function(){
       count++;
       result.push({
         title: data.recipes[i].title,
-        url: data.recipes[i].source_url
+        publisher: data.recipes[i].publisher,
+        url: data.recipes[i].source_url,
+        imageUrl: data.recipes[i].image_url
       });
     }
     return result;
