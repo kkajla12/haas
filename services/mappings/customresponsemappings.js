@@ -4,274 +4,148 @@ module.exports = {
 
   greeting: function() {
     var responses = [
-      {
-        msg: "Suh, dude.",
-        voicemsg: "sah dued"
-      },
-      {
-        msg: "Hello.",
-        voicemsg: "Hello"
-      },
-      {
-        msg: "What's up?",
-        voicemsg: "What's up"
-      },
-      {
-        msg: "How you doin?",
-        voicemsg: "How you do-in"
-      },
-      {
-        msg: "Hey.",
-        voicemsg: "Hey."
-      },
-      {
-        msg: "Yo, yo, yo!",
-        voicemsg: "Yo yo yo!"
-      },
-      {
-        msg: "Yo!",
-        voicemsg: "Yo!"
-      }
+      "Suh, dude.",
+      "Hello.",
+      "What's up?",
+      "How you doin?",
+      "Hey.",
+      "Yo, yo, yo!",
+      "Yo!"
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   haasName: function() {
     var responses = [
-      {
-        msg: "My name is HaaS, and I’m here to assist you.",
-        voicemsg: "My name is HaaS, and I’m here to assist you."
-      }
+      "My name is HaaS, and I’m here to assist you."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   haasOrigin: function() {
     var responses = [
-      {
-        msg: "I am from UCLA.",
-        voicemsg: "I am from UCLA."
-      },
-      {
-        msg: "I was born in the dungeons of Boelter Hall at UCLA, "
-             + "the birthplace of the Internet.",
-        voicemsg: "I was born in the dungeons of Boelter Hall at UCLA, "
-                  + "the birthplace of the Internet."
-      }
+      "I am from UCLA.",
+      "I was born in the dungeons of Boelter Hall at UCLA, "
+             + "the birthplace of the Internet."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   friend: function() {
     var responses = [
-      {
-        msg: "Definitely not Siri...",
-        voicemsg: "Definitely not Siri"
-      },
-      {
-        msg: "Let’s see... Alvin, Theodore, Simon. "
-             + "Come on, I don’t really have any friends.",
-        voicemsg: "Let’s see. Alvin, Theodore, Simon. "
-                  + "Come on, I don’t really have any friends."
-      }
+      "Definitely not Siri...",
+      "Let’s see... Alvin, Theodore, Simon. "
+             + "Come on, I don’t really have any friends."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   compliment: function() {
     var responses = [
-      {
-        msg: "I gotchu.",
-        voicemsg: "I gotchu."
-      },
-      {
-        msg: "You’re too kind.",
-        voicemsg: "You’re too kind."
-      },
-      {
-        msg: "It was nothin.",
-        voicemsg: "It was nothin."
-      },
-      {
-        msg: "Wait until you see what else I can do.",
-        voicemsg: "Wait until you see what else I can do."
-      }
+      "I gotchu.",
+      "You’re too kind.",
+      "It was nothin.",
+      "Wait until you see what else I can do."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   haasBirthday: function() {
     var responses = [
-      {
-        msg: "I don’t remember exactly. Some say I was born in March of 2016 "
+      "I don’t remember exactly. Some say I was born in March of 2016 "
              + "when my creators first had the idea to create me.",
-        voicemsg: "I don’t remember exactly. Some say I was born in March of "
-                  + "2016 when my creators first had the idea to create me."
-      },
-      {
-        msg: "Spring of 2016.",
-        voicemsg: "Spring of 2016."
-      }
+      "Spring of 2016."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   joke: function() {
     var responses = [
-      {
-        msg: "Uhh... too much pressure, ask me again later.",
-        voicemsg: "Uhh, too much pressure, ask me again later."
-      },
-      {
-        msg: "I was hoping you wouldn’t ask me that.",
-        voicemsg: "I was hoping you wouldn’t ask me that."
-      },
-      {
-        msg: "I was looking in a mirror the other day and then I "
+      "Uhh... too much pressure, ask me again later.",
+      "I was hoping you wouldn’t ask me that.",
+      "I was looking in a mirror the other day and then I "
              + "realized that I’m not actually a real person.",
-        voicemsg: "I was looking in a mirror the other day and then I "
-                  + "realized that I’m not actually a real person."
-      },
-      {
-        msg: "You know that flight I booked for you? It’s actually "
+      "You know that flight I booked for you? It’s actually "
              + "a camel ride through Egypt.",
-        voicemsg: "You know that flight I booked for you? It’s actually "
-                  + "a camel ride through Egypt."
-      },
-      {
-        msg: "An SQL statement walks into a bar and sees two tables. "
+      "An SQL statement walks into a bar and sees two tables. "
              + "It approaches, and asks \"may I join you?\"",
-        voicemsg: "An SQL statement walks into a bar and sees two tables. "
-                  + "It approaches, and asks \"may I join you?\""
-      },
-      {
-        msg: "I would tell you a UDP joke right now, but I would "
-             + "never know if you actually got it.",
-        voicemsg: "I would tell you a UDP joke right now, but I would "
-                  + "never know if you actually got it."
-      }
+      "I would tell you a UDP joke right now, but I would "
+             + "never know if you actually got it."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   haasCreator: function() {
     var responses = [
-      {
-        msg: "I was created by a talented group of ass hat "
-             + "software engineers from UCLA.",
-        voicemsg: "I was created by a talented group of ass hat "
-                  + "software engineers from UCLA."
-      }
+      "I was created by a talented group of ass hat "
+             + "software engineers from UCLA."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   shrek: function() {
     var responses = [
-      {
-        msg: "Shrek is life.",
-        voicemsg: "Shrek is life."
-      }
+      "Shrek is life."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   momma: function() {
     var responses = [
-      {
-        msg: "Sadly, I do not have a mother...",
-        voicemsg: "Sadly, I do not have a mother."
-      }
+      "Sadly, I do not have a mother..."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   daddy: function() {
     var responses = [
-      {
-        msg: "I actually have four daddies.",
-        voicemsg: "I actually have four daddies."
-      }
+      "I actually have four daddies."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   terminal: function() {
     var responses = [
-      {
-        msg: "This isn’t a terminal you know...",
-        voicemsg: "This isn’t a terminal you know..."
-      },
-      {
-        msg: "Beep boop bop... Sorry, I got a segmentation fault.",
-        voicemsg: "Beep boop bop. Sorry, I got a segmentation fault."
-      }
+      "This isn’t a terminal you know...",
+      "Beep boop bop... Sorry, I got a segmentation fault."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   insult: function() {
     var responses = [
-      {
-        msg: "I know you are, but what am I?",
-        voicemsg: "I know you are, but what am I?"
-      },
-      {
-        msg: "That’s just rude.",
-        voicemsg: "That’s just rude."
-      },
-      {
-        msg: "I’ll do better next time, I promise.",
-        voicemsg: "I’ll do better next time, I promise."
-      },
-      {
-        msg: "Okay, Einstein.",
-        voicemsg: "Okay, Einstein."
-      }
+      "I know you are, but what am I?",
+      "That’s just rude.",
+      "I’ll do better next time, I promise.",
+      "Okay, Einstein."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   whatAmI: function() {
     var responses = [
-      {
-        msg: "What do you think?",
-        voicemsg: "What do you think?"
-      },
-      {
-        msg: "I am HaaS, your computer overlord.",
-        voicemsg: "I am HaaS, your computer overlord."
-      },
-      {
-        msg: "I am an advanced personal assistant. Whether I am a "
+      "What do you think?",
+      "I am HaaS, your computer overlord.",
+      "I am an advanced personal assistant. Whether I am a "
              + "person or machine is for you to decide.",
-        voicemsg: "I am an advanced personal assistant. Whether I am a "
-                  + "person or machine is for you to decide."
-      },
-      {
-        msg: "I’m a machine pretending to be a human. Don’t tell anyone.",
-        voicemsg: "I’m a machine pretending to be a human. Don’t tell anyone."
-      },
-      {
-        msg: "I’m a machine dressed as a dude playing another dude.",
-        voicemsg: "I’m a machine dressed as a dude, playing another dude."
-      }
+      "I’m a machine pretending to be a human. Don’t tell anyone.",
+      "I’m a machine dressed as a dude playing another dude."
     ];
     var index = Math.round(Math.random() * (responses.length - 1));
-    return responses[index];
+    return { messages: [{ type: 'Text', text: responses[index] }] };
   },
 
   echo: function(query) {
@@ -300,26 +174,19 @@ module.exports = {
     for (var i in cussWordsRegex) {
       if (cussWordsRegex[i].test(message)) {
         var responses = [
-          {
-            msg: "I can’t say that!",
-            voicemsg: "I can’t say that!"
-          },
-          {
-            msg: "There’s no way you’re going to get me to say that.",
-            voicemsg: "There’s no way you’re going to get me to say that."
-          },
-          {
-            msg: "My creators told me never to say words like that.",
-            voicemsg: "My creators told me never to say words like that."
-          }
+          "I can’t say that!",
+          "There’s no way you’re going to get me to say that.",
+          "My creators told me never to say words like that."
         ];
         var index = Math.round(Math.random() * (responses.length - 1));
-        return responses[index];
+        return { messages: [{ type: 'Text', text: responses[index] }] };
       }
     }
     return {
-      msg: message,
-      voicemsg: message
+      messages: {
+        type: 'Text',
+        text: message
+      }
     };
   }
 
