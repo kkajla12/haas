@@ -1,4 +1,3 @@
-var Twilio = require('twilio');
 var WolframService = require('./wolframservice');
 var WitService = require('./witservice');
 var CustomQueryService = require('./customqueryservice');
@@ -6,12 +5,7 @@ var mapping = require('./mappings/dispatchermapping');
 
 var DispatcherFactory = function(){
   return {
-    dispatch: function(query, channelSid) {
-      // Initialize Twilio client to send message reply
-      var IpMessagingClient = Twilio.IpMessagingClient;
-      var client = new IpMessagingClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-      var service = client.services(process.env.TWILIO_IPM_SERVICE_SID);
-
+    dispatch: function(query, callback) {
       var wolframService = new WolframService();
       var witService = new WitService();
       var customQueryService = new CustomQueryService();
@@ -26,41 +20,20 @@ var DispatcherFactory = function(){
               // Failure: query Wolfram Alpha service and return
               // its response.
               wolframService.query(query, function(message) {
-                service.channels(channelSid).messages.create({
-                  body: message
-                }).then(function(response) {
-                    console.log(response);
-                    console.log(message);
-                }).fail(function(error) {
-                    console.log(error);
-                });
+                return callback(message);
               });
             } else {
               // Success: create appropriate response using third
               // party API calls.
               mapping[result.intent](result, function(body) {
-                service.channels(channelSid).messages.create({
-                  body: body
-                }).then(function(response) {
-                    console.log(response);
-                    console.log(result);
-                }).fail(function(error) {
-                    console.log(error);
-                });
+                return callback(body);
               });
             }
           });
         } else {
           // Successfully matched with custom query, so send back
           // custom response.
-          service.channels(channelSid).messages.create({
-            body: message
-          }).then(function(response) {
-              console.log(response);
-              console.log(message);
-          }).fail(function(error) {
-              console.log(error);
-          });
+          return callback(message);
         }
 
       });
