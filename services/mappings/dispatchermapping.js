@@ -152,63 +152,85 @@ module.exports = {
   recipeSearch: function(result, callback) {
     food2forkService.recipeQuery(result.item, function(err, res) {
       if (err) {
-        var response = {};
-        response.msg = "I'm sorry, I couldn't find any recipes for "
-                       + result.item;
-        response.voicemsg = response.msg;
-        response.links = [];
-        return callback(JSON.stringify(response));
+        var response = {
+          messages: [{
+            type: 'Text',
+            text: "I'm sorry, I couldn't find any recipes for " + result.item
+          }]
+        };
+
+        return callback(response);
       }
 
-      var response = {};
-      var links = [];
-      response.msg = "Here are a few recipes for " + result.item + ":",
-      response.voicemsg = response.msg;
+      var response = {
+        messages: [
+          {
+            type: 'Text',
+            text: "Here are a few recipes for " + result.item
+          },
+          {
+            type: 'GenericTemplate',
+            titles: [],
+            subtitles: [],
+            urls: [],
+            imageUrls: []
+          }
+        ]
+      };
 
-      for (var i in res) {
-        links.push({
-          text: res[i].title,
-          url: res[i].url,
-          majorInfo: '',
-          minorInfo: ''
-        });
-      }
-      response.links = links;
+      res.forEach(function(element) {
+        var message = response.messages[1];
+        message.titles.push(element.title);
+        message.subtitles.push(element.publisher);
+        message.urls.push(element.url);
+        message.imageUrls.push(element.imageUrl);
+      });
 
-      callback(JSON.stringify(response));
+      callback(response);
     });
   },
 
   recipeIngredientSearch: function(result, callback) {
     food2forkService.recipeIngredientQuery(result.items, function(err, res) {
       if (err) {
-        var response = {};
-        response.msg = "I'm sorry, I couldn't find any good recipes for those"
-                       + "items.";
-        response.voicemsg = response.msg;
-        response.links = [];
-        return callback(JSON.stringify(response));
+        var response = {
+          messages: [{
+            type: 'Text',
+            text: "I'm sorry, I couldn't find any good recipes for those items."
+          }]
+        };
+
+        return callback(response);
       }
 
-      var response = {};
-      var links = [];
-      response.msg = "Here are a few recipes using "
-           + result.items.slice(0, result.items.length - 1).join(", ")
-           + (result.items.length > 1 ? " and " : "")
-           + result.items[result.items.length - 1] + ":";
-      response.voicemsg = response.msg;
+      var response = {
+        messages: [
+          {
+            type: 'Text',
+            text: "Here are a few recipes using "
+                 + result.items.slice(0, result.items.length - 1).join(", ")
+                 + (result.items.length > 1 ? " and " : "")
+                 + result.items[result.items.length - 1] + ":"
+          },
+          {
+            type: 'GenericTemplate',
+            titles: [],
+            subtitles: [],
+            urls: [],
+            imageUrls: []
+          }
+        ]
+      };
 
-      for (var i in res) {
-        links.push({
-          text: res[i].title,
-          url: res[i].url,
-          majorInfo: '',
-          minorInfo: ''
-        });
-      }
-      response.links = links;
+      res.forEach(function(element) {
+        var message = response.messages[1];
+        message.titles.push(element.title);
+        message.subtitles.push(element.publisher);
+        message.urls.push(element.url);
+        message.imageUrls.push(element.imageUrl);
+      });
 
-      callback(JSON.stringify(response));
+      callback(response);
     });
   }
 
