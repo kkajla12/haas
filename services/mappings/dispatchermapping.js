@@ -15,56 +15,65 @@ module.exports = {
   retailStoreSearch: function(result, callback) {
     connexityService.retailQuery(result.item, function(connexityErr, connexityProducts) {
       amazonService.search(result.item, function(amazonErr, res) {
-        var response = {};
-        var links = [];
+        var response = {
+          messages: []
+        };
+
         if (connexityErr && amazonErr) {
-          response.msg = "I'm sorry, I wasn't able to find any results for"
-                        + " that item.";
-          response.voicemsg = response.msg;
-          response.links = links;
-          return callback(JSON.stringify(reponse));
+          response.messages.push({
+            type: 'Text',
+            text: "I wasn't able to find any results for that item."
+          });
+
+          return callback(reponse);
         }
 
-        response.msg = "The item you requested is available at:";
+        response.messages.push({
+          type: 'Text',
+          text: "Here's a list of places where that item is available"
+        });
+
+        var message = {
+          type: 'GenericTemplate',
+          titles: [],
+          subtitles: [],
+          urls: [],
+          imageUrls: []
+        };
+
         if(!amazonErr) {
-          var amazonString = "Amazon - " + res.title + " (" + res.price + ")";
-          response.voicemsg = 'The item you requested is available at Amazon';
-          links.push({
-            text: "Amazon",
-            url: res.url,
-            majorInfo: res.title,
-            minorInfo: res.price
-          });
+          message.titles.push(res.title);
+          message.subtitles.push(res.price);
+          message.urls.push(res.url);
+          message.imageUrls.push(res.imageUrl);
         }
+
         if(!connexityErr) {
           for(var i in connexityProducts) {
             var prod = connexityProducts[i];
-            links.push({
-              text: prod.merchantName,
-              url: prod.url,
-              majorInfo: prod.title,
-              minorInfo: prod.price
-            });
-            response.voicemsg +=
-              ((i == connexityProducts.length - 1) ? ", and " : ", ");
-            response.voicemsg += prod.merchantName;
+
+            message.titles.push(prod.title);
+            message.subtitles.push(prod.price);
+            message.urls.push(prod.url);
+            message.imageUrls.push(prod.imageUrl);
           }
         }
-        response.links = links;
-        callback(JSON.stringify(response));
+
+        response.messages.push(message);
+
+        callback(response);
       });
     });
   },
 
   retailComparisonSearch: function(result, callback) {
-    var response = {
-      msg: "Your intent is " + result.intent
-           + " and your item is " + result.item,
-      voicemsg: '',
-      links: []
-    };
-    response.voicemsg = response.msg;
-    callback(JSON.stringify(response));
+    callback({
+      messages: [{
+        type: 'Text',
+        text: "Your intent is " + result.intent
+             + " and your item is " + result.item
+      }]
+    });
   },
 
   generalFlightSearch: function(result, callback) {
