@@ -1,4 +1,7 @@
 {
+  "addons": [
+    "mongolab"  
+  ],
   "env": {
     "USER_SECRET": {
       "required": true
