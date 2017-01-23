@@ -5,14 +5,16 @@ var ExpediaService = require('../expediaservice');
 var AmazonService = require('../amazonservice');
 var Food2ForkService = require('../food2forkservice');
 var ConnexityService = require('../connexityservice');
+var ShippoService = require('../shipposervice');
 
 var expediaService = new ExpediaService();
 var amazonService = new AmazonService();
 var food2forkService = new Food2ForkService();
 var connexityService = new ConnexityService();
+var shippoService = new ShippoService();
 
 module.exports = {
-  retailStoreSearch: function(result, callback) {
+  retailStoreSearch: function(userId, result, callback) {
     connexityService.retailQuery(result.item, function(connexityErr, connexityProducts) {
       amazonService.search(result.item, function(amazonErr, res) {
         var response = {
@@ -66,7 +68,7 @@ module.exports = {
     });
   },
 
-  retailComparisonSearch: function(result, callback) {
+  retailComparisonSearch: function(userId, result, callback) {
     callback({
       messages: [{
         type: 'Text',
@@ -76,7 +78,7 @@ module.exports = {
     });
   },
 
-  generalFlightSearch: function(result, callback) {
+  generalFlightSearch: function(userId, result, callback) {
     expediaService.flightQuery(result, function(err, res) {
       if (err) {
         var response = {
@@ -114,7 +116,7 @@ module.exports = {
     });
   },
 
-  generalHotelSearch: function(result, callback) {
+  generalHotelSearch: function(userId, result, callback) {
     expediaService.hotelQuery(result.query, function(err, hotels) {
       if (err) {
         var response = {
@@ -158,7 +160,7 @@ module.exports = {
     });
   },
 
-  recipeSearch: function(result, callback) {
+  recipeSearch: function(userId, result, callback) {
     food2forkService.recipeQuery(result.item, function(err, res) {
       if (err) {
         var response = {
@@ -199,7 +201,7 @@ module.exports = {
     });
   },
 
-  recipeIngredientSearch: function(result, callback) {
+  recipeIngredientSearch: function(userId, result, callback) {
     food2forkService.recipeIngredientQuery(result.items, function(err, res) {
       if (err) {
         var response = {
@@ -240,6 +242,54 @@ module.exports = {
       });
 
       callback(response);
+    });
+  },
+
+  packageTracking: function(userId, result, callback) {
+    shippoService.trackPackage(userId, result.shipment_carrier, result.reference_number, function(err, status) {
+      if (err) {
+        return callback({
+          messages: [{
+            type: 'Text',
+            text: "I wasn't able to get any information on your package. Maybe you gave me the wrong tracking number or carrier?"
+          }]
+        });
+      }
+
+      console.log('Shippo Returned Status: ', status);
+
+      var result = {
+        messages: [{
+          type: 'Text'
+        }]
+      };
+      var tracking_status = status.tracking_status;
+      var text;
+
+      switch (tracking_status.status) {
+        case 'DELIVERED':
+          text = 'Your package was delivered!';
+          break;
+        case 'TRANSIT':
+          text =
+            "Your package is on its way. It's currently in " + tracking_status.location.city + ", " + tracking_status.location.state;
+
+          if (status.eta != null) {
+            var etaDate = new Date(status.eta);
+            text += " and should be delivered on " + etaDate.toLocaleDateString() + " around " + etaDate.toLocaleTimeString();
+          }
+          break;
+        case 'RETURNED':
+          text = 'Your package was returned.';
+          break;
+        default:
+          text = "I'm not sure about the status of your package right now.";
+          break;
+      }
+
+      result.messages[0].text = text;
+
+      callback(result);
     });
   }
 

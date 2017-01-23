@@ -18,8 +18,10 @@ var WitFactory = function() {
 
   return {
     getIntent: function(request, minConfidence, callback) {
+      console.log('getting wit intent');
+
       client.message(request, function(err, data) {
-        if (err) { return callback(err); } 
+        if (err) { return callback(err); }
 
         console.log(JSON.stringify(data));
 

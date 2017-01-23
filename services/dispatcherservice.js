@@ -5,7 +5,9 @@ var mapping = require('./mappings/dispatchermapping');
 
 var DispatcherFactory = function(){
   return {
-    dispatch: function(query, callback) {
+    dispatch: function(userId, query, callback) {
+      console.log('inside dispatch');
+
       var wolframService = new WolframService();
       var witService = new WitService();
       var customQueryService = new CustomQueryService();
@@ -15,7 +17,7 @@ var DispatcherFactory = function(){
         if (err) {
           // Failed to match with custom query.
           // Attempt to grab intent from query using wit.
-          witService.getIntent(query, 1, function(err, result) {
+          witService.getIntent(query, 0.998, function(err, result) {
             if (err) {
               // Failure: query Wolfram Alpha service and return
               // its response.
@@ -25,7 +27,7 @@ var DispatcherFactory = function(){
             } else {
               // Success: create appropriate response using third
               // party API calls.
-              mapping[result.intent](result, function(body) {
+              mapping[result.intent](userId, result, function(body) {
                 return callback(body);
               });
             }

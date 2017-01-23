@@ -15,9 +15,13 @@ function receivedMessage(event) {
   console.log(JSON.stringify(message));
 
   if (messageText) {
+    console.log('before initializing DispatcherService');
+
     var dispatcherService = new DispatcherService();
 
-    dispatcherService.dispatch(messageText, function(messageResponse) {
+    console.log('after initializing DispatcherService and before dispatching');
+
+    dispatcherService.dispatch(senderID, messageText, function(messageResponse) {
       var messengerService = new MessengerService();
 
       console.log("Message Response: ", JSON.stringify(messageResponse));

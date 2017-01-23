@@ -47,6 +47,14 @@ module.exports = {
       intent: 'recipeIngredientSearch',
       items: data.outcomes[0].entities.search_query.map(i => i.value)
     };
+  },
+
+  packageTracking: function(data) {
+    return {
+      intent: 'packageTracking',
+      shipment_carrier: data.outcomes[0].entities.shipment_carrier[0].value.toLowerCase(),
+      reference_number: data.outcomes[0].entities.reference_number[0].value
+    };
   }
 
 }
