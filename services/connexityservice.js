@@ -32,7 +32,8 @@ var ConnexityFactory = function(){
             title: product.title,
             price: product.price.value,
             url: product.url.value,
-            merchantName: product.merchantName
+            merchantName: product.merchantName,
+            imageUrl: product.images.image[3].value
           });
         } else {
           try {
@@ -40,7 +41,8 @@ var ConnexityFactory = function(){
               title: product.title,
               price: product.priceSet.minPrice.value,
               url: product.url.value,
-              merchantName: product.brand.name
+              merchantName: product.brand.name,
+              imageUrl: product.images.image[3].value
             });
           } catch (e) {
             console.log("unable to add product to result list due to poorly"

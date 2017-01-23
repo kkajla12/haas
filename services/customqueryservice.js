@@ -21,7 +21,7 @@ var CustomQueryFactory = function(){
       for (var id in customRegexMap) {
         if ( customRegexMap.hasOwnProperty(id) ) {
           if ( isAMatch(query, customRegexMap[id]) ) {
-            return callback(null, JSON.stringify(customResponseMap[id](dirtyQuery)));
+            return callback(null, customResponseMap[id](dirtyQuery));
           }
         }
       }
