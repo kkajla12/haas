@@ -40,6 +40,9 @@ app.use('/login', require('./routes/login'));
 app.use('/register', require('./routes/register'));
 app.use('/user', require('./routes/user/user'));
 app.use('/twilio', require('./routes/twilio/twilio'));
+app.use('/messenger', require('./routes/messenger/messenger'));
+app.use('/shippo', require('./routes/shippo/shippo'));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

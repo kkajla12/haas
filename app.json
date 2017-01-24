@@ -62,6 +62,12 @@
     },
     "CONNEXITY_API_KEY": {
       "required": true
+    },
+    "SHIPPO_API_KEY": {
+      "required": true
+    },
+    "SHIPPO_TEST_API_KEY": {
+      "required": true
     }
   }
 }

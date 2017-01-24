@@ -6,29 +6,32 @@ var WolframFactory = function(){
     query: function(request, callback) {
       Wolfram.query(request, function(err, result) {
         var response = {
-          msg: '',
-          voicemsg: ''
+          messages: []
         };
 
         for (var i in result) {
           if (result[i].title === "Result") {
-            response.msg = result[i].subpods[0].value;
-            response.voicemsg = response.msg;
+            response.messages.push({
+              type: 'Text',
+              text: result[i].subpods[0].value
+            });
           }
         }
 
-        if (response.msg === "") {
-          response.msg = 'I\'m sorry, I don\'t know. Try this link for more information:\n';
-          response.links = [{
-            text: request,
-            url: 'http://lmgtfy.com/?q=' + encodeURI(request),
-            majorInfo: '',
-            minorInfo: ''
-          }];
-          response.voicemsg = 'I\'m sorry, I don\'t know.';
+        if (response.messages.length === 0) {
+          response.messages.push(
+            {
+              type: 'Text',
+              text: "I'm not exactly sure what you mean. You can try rephrasing, or if not, here's a Google search that might help."
+            },
+            {
+              type: 'Text',
+              text: 'https://google.com/search?q=' + encodeURI(request)
+            }
+          );
         }
 
-        callback(JSON.stringify(response));
+        callback(response);
       });
     }
   };

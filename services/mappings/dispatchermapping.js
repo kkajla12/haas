@@ -5,69 +5,80 @@ var ExpediaService = require('../expediaservice');
 var AmazonService = require('../amazonservice');
 var Food2ForkService = require('../food2forkservice');
 var ConnexityService = require('../connexityservice');
+var ShippoService = require('../shipposervice');
 
 var expediaService = new ExpediaService();
 var amazonService = new AmazonService();
 var food2forkService = new Food2ForkService();
 var connexityService = new ConnexityService();
+var shippoService = new ShippoService();
 
 module.exports = {
-  retailStoreSearch: function(result, callback) {
+  retailStoreSearch: function(userId, result, callback) {
     connexityService.retailQuery(result.item, function(connexityErr, connexityProducts) {
       amazonService.search(result.item, function(amazonErr, res) {
-        var response = {};
-        var links = [];
+        var response = {
+          messages: []
+        };
+
         if (connexityErr && amazonErr) {
-          response.msg = "I'm sorry, I wasn't able to find any results for"
-                        + " that item.";
-          response.voicemsg = response.msg;
-          response.links = links;
-          return callback(JSON.stringify(reponse));
+          response.messages.push({
+            type: 'Text',
+            text: "I wasn't able to find any results for that item."
+          });
+
+          return callback(reponse);
         }
 
-        response.msg = "The item you requested is available at:";
+        response.messages.push({
+          type: 'Text',
+          text: "Here's a list of places where that item is available"
+        });
+
+        var message = {
+          type: 'GenericTemplate',
+          titles: [],
+          subtitles: [],
+          urls: [],
+          imageUrls: []
+        };
+
         if(!amazonErr) {
-          var amazonString = "Amazon - " + res.title + " (" + res.price + ")";
-          response.voicemsg = 'The item you requested is available at Amazon';
-          links.push({
-            text: "Amazon",
-            url: res.url,
-            majorInfo: res.title,
-            minorInfo: res.price
-          });
+          message.titles.push(res.title);
+          message.subtitles.push(res.price);
+          message.urls.push(res.url);
+          message.imageUrls.push(res.imageUrl);
         }
+
         if(!connexityErr) {
           for(var i in connexityProducts) {
             var prod = connexityProducts[i];
-            links.push({
-              text: prod.merchantName,
-              url: prod.url,
-              majorInfo: prod.title,
-              minorInfo: prod.price
-            });
-            response.voicemsg +=
-              ((i == connexityProducts.length - 1) ? ", and " : ", ");
-            response.voicemsg += prod.merchantName;
+
+            message.titles.push(prod.title);
+            message.subtitles.push(prod.price);
+            message.urls.push(prod.url);
+            message.imageUrls.push(prod.imageUrl);
           }
         }
-        response.links = links;
-        callback(JSON.stringify(response));
+
+        response.messages.push(message);
+
+        callback(response);
       });
     });
   },
 
-  retailComparisonSearch: function(result, callback) {
-    var response = {
-      msg: "Your intent is " + result.intent
-           + " and your item is " + result.item,
-      voicemsg: '',
-      links: []
-    };
-    response.voicemsg = response.msg;
-    callback(JSON.stringify(response));
+  retailComparisonSearch: function(userId, result, callback) {
+    callback({
+      messages: [{
+        type: 'Text',
+        text: "Your intent is " + result.intent
+             + " and your item is " + result.item
+      }]
+    });
   },
 
-  generalFlightSearch: function(result, callback) {
+  generalFlightSearch: function(userId, result, callback) {
     expediaService.flightQuery(result, function(err, res) {
       if (err) {
         var response = {
@@ -105,7 +116,7 @@ module.exports = {
     });
   },
 
-  generalHotelSearch: function(result, callback) {
+  generalHotelSearch: function(userId, result, callback) {
     expediaService.hotelQuery(result.query, function(err, hotels) {
       if (err) {
         var response = {
@@ -149,66 +160,136 @@ module.exports = {
     });
   },
 
-  recipeSearch: function(result, callback) {
+  recipeSearch: function(userId, result, callback) {
     food2forkService.recipeQuery(result.item, function(err, res) {
       if (err) {
-        var response = {};
-        response.msg = "I'm sorry, I couldn't find any recipes for "
-                       + result.item;
-        response.voicemsg = response.msg;
-        response.links = [];
-        return callback(JSON.stringify(response));
+        var response = {
+          messages: [{
+            type: 'Text',
+            text: "I'm sorry, I couldn't find any recipes for " + result.item
+          }]
+        };
+
+        return callback(response);
       }
 
-      var response = {};
-      var links = [];
-      response.msg = "Here are a few recipes for " + result.item + ":",
-      response.voicemsg = response.msg;
+      var response = {
+        messages: [
+          {
+            type: 'Text',
+            text: "Here are a few recipes for " + result.item
+          },
+          {
+            type: 'GenericTemplate',
+            titles: [],
+            subtitles: [],
+            urls: [],
+            imageUrls: []
+          }
+        ]
+      };
 
-      for (var i in res) {
-        links.push({
-          text: res[i].title,
-          url: res[i].url,
-          majorInfo: '',
-          minorInfo: ''
-        });
-      }
-      response.links = links;
+      res.forEach(function(element) {
+        var message = response.messages[1];
+        message.titles.push(element.title);
+        message.subtitles.push(element.publisher);
+        message.urls.push(element.url);
+        message.imageUrls.push(element.imageUrl);
+      });
 
-      callback(JSON.stringify(response));
+      callback(response);
     });
   },
 
-  recipeIngredientSearch: function(result, callback) {
+  recipeIngredientSearch: function(userId, result, callback) {
     food2forkService.recipeIngredientQuery(result.items, function(err, res) {
       if (err) {
-        var response = {};
-        response.msg = "I'm sorry, I couldn't find any good recipes for those"
-                       + "items.";
-        response.voicemsg = response.msg;
-        response.links = [];
-        return callback(JSON.stringify(response));
+        var response = {
+          messages: [{
+            type: 'Text',
+            text: "I'm sorry, I couldn't find any good recipes for those items."
+          }]
+        };
+
+        return callback(response);
       }
 
-      var response = {};
-      var links = [];
-      response.msg = "Here are a few recipes using "
-           + result.items.slice(0, result.items.length - 1).join(", ")
-           + (result.items.length > 1 ? " and " : "")
-           + result.items[result.items.length - 1] + ":";
-      response.voicemsg = response.msg;
+      var response = {
+        messages: [
+          {
+            type: 'Text',
+            text: "Here are a few recipes using "
+                 + result.items.slice(0, result.items.length - 1).join(", ")
+                 + (result.items.length > 1 ? " and " : "")
+                 + result.items[result.items.length - 1] + ":"
+          },
+          {
+            type: 'GenericTemplate',
+            titles: [],
+            subtitles: [],
+            urls: [],
+            imageUrls: []
+          }
+        ]
+      };
 
-      for (var i in res) {
-        links.push({
-          text: res[i].title,
-          url: res[i].url,
-          majorInfo: '',
-          minorInfo: ''
+      res.forEach(function(element) {
+        var message = response.messages[1];
+        message.titles.push(element.title);
+        message.subtitles.push(element.publisher);
+        message.urls.push(element.url);
+        message.imageUrls.push(element.imageUrl);
+      });
+
+      callback(response);
+    });
+  },
+
+  packageTracking: function(userId, result, callback) {
+    shippoService.trackPackage(userId, result.shipment_carrier, result.reference_number, function(err, status) {
+      if (err) {
+        return callback({
+          messages: [{
+            type: 'Text',
+            text: "I wasn't able to get any information on your package. Maybe you gave me the wrong tracking number or carrier?"
+          }]
         });
       }
-      response.links = links;
 
-      callback(JSON.stringify(response));
+      console.log('Shippo Returned Status: ', status);
+
+      var result = {
+        messages: [{
+          type: 'Text'
+        }]
+      };
+      var tracking_status = status.tracking_status;
+      var text;
+
+      switch (tracking_status.status) {
+        case 'DELIVERED':
+          text = 'Your package was delivered!';
+          break;
+        case 'TRANSIT':
+          text =
+            "Your package is on its way. It's currently in " + tracking_status.location.city + ", " + tracking_status.location.state;
+
+          if (status.eta != null) {
+            var etaDate = new Date(status.eta);
+            text += " and should be delivered on " + etaDate.toLocaleDateString() + " around " + etaDate.toLocaleTimeString();
+          }
+          break;
+        case 'RETURNED':
+          text = 'Your package was returned.';
+          break;
+        default:
+          text = "I'm not sure about the status of your package right now.";
+          break;
+      }
+
+      result.messages[0].text = text;
+
+      callback(result);
     });
   }
 
